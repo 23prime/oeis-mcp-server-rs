@@ -1,0 +1,25 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  your-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Sync upstream
+        uses: 23prime/sync-upstream@main # TODO: change to `v1` when released
+        with:
+          upstream-url: https://github.com/23prime/taskfile-mise-template.git
+          github-token: ${{ secrets.GITHUB_TOKEN }}
