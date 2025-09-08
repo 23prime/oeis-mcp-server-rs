@@ -15,9 +15,9 @@ tasks:
   lint:
     desc: "Run markdownlint on project markdown files"
     cmds:
-      - markdownlint *.md
+      - markdownlint .
 
   lint-fix:
     desc: "Fix markdownlint issues automatically"
     cmds:
-      - markdownlint *.md --fix
+      - markdownlint . --fix
