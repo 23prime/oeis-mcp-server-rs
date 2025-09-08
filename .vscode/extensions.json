@@ -5,8 +5,6 @@
     "redhat.vscode-yaml",
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",
-    "timonwong.shellcheck",
-    "mkhl.shfmt",
     "DavidAnson.vscode-markdownlint",
     "biomejs.biome",
   ],

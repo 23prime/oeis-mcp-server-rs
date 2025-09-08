@@ -12,7 +12,6 @@ tasks:
     cmds:
       - mise --version
       - shellcheck --version
-      - shfmt --version
       - uv --version
       - yamllint --version
       - markdownlint --version

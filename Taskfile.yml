@@ -2,7 +2,6 @@ version: "3"
 
 includes:
   mise: tasks/MiseTasks.yml
-  sh: tasks/ShellTasks.yml
   yml: tasks/YamlTasks.yml
   json: tasks/JsonTasks.yml
   md: tasks/MarkdownTasks.yml
@@ -30,7 +29,6 @@ tasks:
   check:
     desc: "Check"
     deps:
-      - sh:check
       - yml:check
       - json:check
       - md:check

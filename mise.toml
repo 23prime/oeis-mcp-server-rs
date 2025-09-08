@@ -1,8 +1,4 @@
 [tools]
-# Shell
-shellcheck = "0.10"
-shfmt = "3"
-
 # YAML
 uv = "latest"       # for install yamllint
 yamllint = "latest"
@@ -15,3 +11,4 @@ biome = "latest"
 
 # GitHub Actions
 actionlint = "latest"
+shellcheck = "latest"
