@@ -15,7 +15,7 @@ tasks:
 
   list:
     desc: List all tasks
-    cmd: task --list
+    cmd: task --list-all
     aliases:
       - l
 
