@@ -12,3 +12,6 @@ biome = "latest"
 # GitHub Actions
 actionlint = "latest"
 shellcheck = "latest"
+
+# Others
+fzf = "latest"
