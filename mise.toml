@@ -13,5 +13,5 @@ biome = "latest"
 actionlint = "latest"
 shellcheck = "latest"
 
-# Others
+# Other tools
 fzf = "latest"
