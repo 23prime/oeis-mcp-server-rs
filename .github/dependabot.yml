@@ -4,9 +4,9 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     cooldown:
-      default-days: 7
+      default-days: 3
     open-pull-requests-limit: 5
     commit-message:
       prefix: "deps"
