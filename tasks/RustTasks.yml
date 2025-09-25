@@ -17,6 +17,11 @@ tasks:
     cmds:
       - cargo run
 
+  dev:
+    desc: "Run Rust application with hot-reloading on changes"
+    cmds:
+      - watchexec -e rs -r cargo run
+
   check:
     desc: "Check Rust code"
     cmds:

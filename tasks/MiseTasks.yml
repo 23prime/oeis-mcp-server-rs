@@ -17,3 +17,4 @@ tasks:
       - markdownlint --version
       - biome --version
       - actionlint --version
+      - watchexec --version

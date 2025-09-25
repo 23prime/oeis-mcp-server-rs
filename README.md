@@ -22,5 +22,5 @@
 2. Run app
 
     ```sh
-    task rs:run
+    task rs:dev
     ```
