@@ -6,6 +6,7 @@ includes:
   json: tasks/JsonTasks.yml
   md: tasks/MarkdownTasks.yml
   gh: tasks/GitHubTasks.yml
+  rs: tasks/RustTasks.yml
 
 tasks:
   default:
@@ -30,6 +31,7 @@ tasks:
     desc: "Setup project"
     cmds:
       - task: mise:setup
+      - task: rs:setup
     aliases:
       - s
 
@@ -40,5 +42,6 @@ tasks:
       - json:check
       - md:check
       - gh:check
+      - rs:check
     aliases:
       - c
