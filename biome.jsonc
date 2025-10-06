@@ -5,15 +5,15 @@
     "indentStyle": "space",
     "lineEnding": "lf",
     "lineWidth": 120,
-    "formatWithErrors": true,
+    "formatWithErrors": true
   },
   "json": {
     "parser": {
-      "allowTrailingCommas": true,
+      "allowTrailingCommas": true
     },
     "formatter": {
       "enabled": true,
-      "trailingCommas": "all",
-    },
-  },
+      "trailingCommas": "none"
+    }
+  }
 }

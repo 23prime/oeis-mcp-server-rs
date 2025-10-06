@@ -6,6 +6,6 @@
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",
     "DavidAnson.vscode-markdownlint",
-    "biomejs.biome",
-  ],
+    "biomejs.biome"
+  ]
 }
