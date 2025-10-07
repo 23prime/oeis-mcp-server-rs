@@ -8,7 +8,10 @@ use tracing_subscriber::{
 };
 
 mod counter;
+mod oeis;
+
 use counter::Counter;
+use oeis::OEIS;
 
 const BIND_ADDRESS: &str = "127.0.0.1:8000";
 
@@ -24,13 +27,22 @@ async fn main() -> anyhow::Result<()> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let service = StreamableHttpService::new(
+    // TODO: remove
+    let counter_service = StreamableHttpService::new(
         || Ok(Counter::new()),
         LocalSessionManager::default().into(),
         Default::default(),
     );
 
-    let router = axum::Router::new().nest_service("/mcp", service);
+    let service = StreamableHttpService::new(
+        || Ok(OEIS::new()),
+        LocalSessionManager::default().into(),
+        Default::default(),
+    );
+
+    let router = axum::Router::new()
+        .nest_service("/mcp/counter", counter_service)
+        .nest_service("/mcp", service);
     let tcp_listener = tokio::net::TcpListener::bind(BIND_ADDRESS).await?;
 
     let server = axum::serve(tcp_listener, router)
