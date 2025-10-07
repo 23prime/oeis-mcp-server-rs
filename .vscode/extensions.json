@@ -6,12 +6,7 @@
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",
     "DavidAnson.vscode-markdownlint",
-<<<<<<< HEAD
     "biomejs.biome",
-    "rust-lang.rust-analyzer",
-  ],
-=======
-    "biomejs.biome"
+    "rust-lang.rust-analyzer"
   ]
->>>>>>> upstream/main
 }

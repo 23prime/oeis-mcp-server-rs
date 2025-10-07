@@ -30,18 +30,14 @@
   },
 
   // Dictionary for spell checker
-<<<<<<< HEAD
   "cSpell.words": ["shellcheck", "Taskfile"],
 
   // Rust
   "[rust]": {
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": true
   },
   "rust-analyzer.checkOnSave": true,
   "rust-analyzer.check.command": "clippy",
   "rust-analyzer.check.features": "all",
-  "rust-analyzer.check.allTargets": true,
-=======
-  "cSpell.words": ["shellcheck", "Taskfile"]
->>>>>>> upstream/main
+  "rust-analyzer.check.allTargets": true
 }
