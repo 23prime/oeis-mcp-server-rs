@@ -16,6 +16,9 @@ use serde_json::json;
 use tokio::sync::Mutex;
 
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct EmptyRequest {}
+
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct StructRequest {
     pub a: i32,
     pub b: i32,
@@ -59,7 +62,7 @@ impl Counter {
     }
 
     #[tool(description = "Increment the counter by 1")]
-    async fn increment(&self) -> Result<CallToolResult, McpError> {
+    async fn increment(&self, _: Parameters<EmptyRequest>) -> Result<CallToolResult, McpError> {
         let mut counter = self.counter.lock().await;
         *counter += 1;
         Ok(CallToolResult::success(vec![Content::text(
@@ -68,7 +71,7 @@ impl Counter {
     }
 
     #[tool(description = "Decrement the counter by 1")]
-    async fn decrement(&self) -> Result<CallToolResult, McpError> {
+    async fn decrement(&self, _: Parameters<EmptyRequest>) -> Result<CallToolResult, McpError> {
         let mut counter = self.counter.lock().await;
         *counter -= 1;
         Ok(CallToolResult::success(vec![Content::text(
@@ -77,7 +80,7 @@ impl Counter {
     }
 
     #[tool(description = "Get the current counter value")]
-    async fn get_value(&self) -> Result<CallToolResult, McpError> {
+    async fn get_value(&self, _: Parameters<EmptyRequest>) -> Result<CallToolResult, McpError> {
         let counter = self.counter.lock().await;
         Ok(CallToolResult::success(vec![Content::text(
             counter.to_string(),
@@ -85,7 +88,7 @@ impl Counter {
     }
 
     #[tool(description = "Say hello to the client")]
-    fn say_hello(&self) -> Result<CallToolResult, McpError> {
+    fn say_hello(&self, _: Parameters<EmptyRequest>) -> Result<CallToolResult, McpError> {
         Ok(CallToolResult::success(vec![Content::text("hello")]))
     }
 
