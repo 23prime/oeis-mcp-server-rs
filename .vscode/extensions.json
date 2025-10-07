@@ -7,6 +7,6 @@
     "EditorConfig.EditorConfig",
     "DavidAnson.vscode-markdownlint",
     "biomejs.biome",
-    "rust-lang.rust-analyzer",
-  ],
+    "rust-lang.rust-analyzer"
+  ]
 }
