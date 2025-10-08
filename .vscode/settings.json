@@ -30,6 +30,7 @@
   },
 
   // Dictionary for spell checker
+<<<<<<< HEAD
   "cSpell.words": ["shellcheck", "Taskfile"],
 
   // Rust
@@ -40,4 +41,7 @@
   "rust-analyzer.check.command": "clippy",
   "rust-analyzer.check.features": "all",
   "rust-analyzer.check.allTargets": true
+=======
+  "cSpell.words": ["shellcheck", "Taskfile"]
+>>>>>>> upstream/main
 }
