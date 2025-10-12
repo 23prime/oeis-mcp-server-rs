@@ -54,16 +54,18 @@ impl OEIS {
         info!("Find sequence by ID: {:?}", id);
 
         let client = OEISClient::new();
-        let results = client
+        let result = client
             .find_by_id(&id)
             .await
             .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))?;
 
-        let result: OEISSequence = results.first().cloned().ok_or(McpError::new(
-            ErrorCode::INVALID_PARAMS,
-            format!("No sequence found (by id: {})", id),
-            None,
-        ))?;
+        let result: OEISSequence = result.ok_or({
+            McpError::new(
+                ErrorCode::INVALID_PARAMS,
+                format!("No sequence found (by id: {})", id),
+                None,
+            )
+        })?;
 
         Ok(CallToolResult::structured(json!(FindResponse { result })))
     }
