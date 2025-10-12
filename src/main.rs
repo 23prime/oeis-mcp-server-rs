@@ -9,6 +9,7 @@ use tracing_subscriber::{
 
 mod counter;
 mod oeis;
+mod oeis_client;
 
 use counter::Counter;
 use oeis::OEIS;
