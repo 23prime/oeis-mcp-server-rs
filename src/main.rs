@@ -13,7 +13,7 @@ const BIND_ADDRESS: &str = "127.0.0.1:8000";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    println!("Starting Streamable HTTP server...");
+    println!("🔄 Starting Streamable HTTP server...");
     setup_tracing();
 
     let service = StreamableHttpService::new(
