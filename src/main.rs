@@ -11,7 +11,7 @@ use tracer::setup_tracing;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    println!("🔄 Starting Streamable HTTP server...");
+    println!("🔄 Starting OEIS MCP server...");
     setup_tracing();
 
     let port = get_port_from_env();
@@ -24,12 +24,12 @@ async fn main() -> anyhow::Result<()> {
     );
 
     let router = axum::Router::new().nest_service("/mcp", service);
-    let tcp_listener = tokio::net::TcpListener::bind(bind_address).await?;
+    let tcp_listener = tokio::net::TcpListener::bind(&bind_address).await?;
 
     let server = axum::serve(tcp_listener, router)
         .with_graceful_shutdown(async { tokio::signal::ctrl_c().await.unwrap() });
 
-    println!("🚀 Streamable HTTP server is ready!");
+    println!("🚀 OEIS MCP server is ready at {}", &bind_address);
 
     let _ = server.await;
     Ok(())
