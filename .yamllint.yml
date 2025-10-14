@@ -1,6 +1,10 @@
 # See: https://yamllint.readthedocs.io/en/stable/configuration.html
 extends: default
 
+ignore: |
+  node_modules/
+  pnpm-lock.yaml
+
 rules:
   document-start: disable
   line-length: disable
