@@ -7,6 +7,7 @@ includes:
   md: tasks/MarkdownTasks.yml
   gh: tasks/GitHubTasks.yml
   rs: tasks/RustTasks.yml
+  t: tasks/TestTasks.yml
 
 tasks:
   default:

@@ -16,3 +16,6 @@ shellcheck = "latest"
 # Other tools
 fzf = "latest"
 watchexec = "latest"
+
+# integration test
+pnpm = "latest"

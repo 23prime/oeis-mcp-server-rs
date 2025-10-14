@@ -24,3 +24,9 @@
     ```sh
     task rs:dev
     ```
+
+3. Run integration tests at another terminal
+
+    ```sh
+    task t:check
+    ```

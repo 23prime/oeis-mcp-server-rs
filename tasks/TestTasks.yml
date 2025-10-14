@@ -1,0 +1,39 @@
+version: "3"
+
+tasks:
+  install:
+    desc: "Install tools"
+    dir: integration_tests
+    cmds:
+      - npm install @modelcontextprotocol/inspector
+
+  check:
+    desc: "Format and run"
+    dir: integration_tests
+    cmds:
+      - task: fix
+      - task: test
+
+  test:
+    desc: "Run tests"
+    dir: integration_tests
+    cmds:
+      - pnpm run test
+
+  fix:
+    desc: "Fix code"
+    dir: integration_tests
+    cmds:
+      - task: fmt
+
+  fmt:
+    desc: "Format code with Prettier"
+    dir: integration_tests
+    cmds:
+      - pnpm run format
+
+  fmt:check:
+    desc: "Check code formatting"
+    dir: integration_tests
+    cmds:
+      - pnpm run format:check
