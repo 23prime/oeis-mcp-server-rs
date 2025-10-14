@@ -18,7 +18,7 @@ pub struct OEISSequence {
 
 #[async_trait]
 pub trait OEISClient: Send + Sync {
-    async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error>;
+    async fn find_by_id(&self, id: &str) -> anyhow::Result<Option<OEISSequence>>;
 }
 
 #[derive(Clone)]
@@ -38,7 +38,7 @@ impl OEISClientImpl {
 
 #[async_trait]
 impl OEISClient for OEISClientImpl {
-    async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error> {
+    async fn find_by_id(&self, id: &str) -> anyhow::Result<Option<OEISSequence>> {
         let response = self
             .client
             .get(&self.url)

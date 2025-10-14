@@ -137,6 +137,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use anyhow::anyhow;
     use async_trait::async_trait;
     use std::collections::HashMap;
 
@@ -179,13 +180,10 @@ mod tests {
 
     #[async_trait]
     impl OEISClient for MockOEISClient {
-        async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error> {
+        async fn find_by_id(&self, id: &str) -> anyhow::Result<Option<OEISSequence>> {
             match self.responses.get(id) {
                 Some(MockResponse::Success(seq)) => Ok(seq.clone()),
-                Some(MockResponse::Error) => {
-                    // Create a mock reqwest error by making an invalid request
-                    Err(reqwest::get("http://invalid.invalid").await.unwrap_err())
-                }
+                Some(MockResponse::Error) => Err(anyhow!("Mock error")),
                 None => Ok(None),
             }
         }
