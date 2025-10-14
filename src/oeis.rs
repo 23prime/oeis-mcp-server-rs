@@ -149,8 +149,14 @@ mod tests {
 
     // Mock OEIS Client for testing
     #[derive(Clone)]
+    enum MockResponse {
+        Success(Option<OEISSequence>),
+        Error,
+    }
+
+    #[derive(Clone)]
     struct MockOEISClient {
-        responses: HashMap<String, Option<OEISSequence>>,
+        responses: HashMap<String, MockResponse>,
     }
 
     impl MockOEISClient {
@@ -161,12 +167,19 @@ mod tests {
         }
 
         fn with_sequence(mut self, id: &str, sequence: OEISSequence) -> Self {
-            self.responses.insert(id.to_string(), Some(sequence));
+            self.responses
+                .insert(id.to_string(), MockResponse::Success(Some(sequence)));
             self
         }
 
         fn with_not_found(mut self, id: &str) -> Self {
-            self.responses.insert(id.to_string(), None);
+            self.responses
+                .insert(id.to_string(), MockResponse::Success(None));
+            self
+        }
+
+        fn with_error(mut self, id: &str) -> Self {
+            self.responses.insert(id.to_string(), MockResponse::Error);
             self
         }
     }
@@ -174,7 +187,14 @@ mod tests {
     #[async_trait]
     impl OEISClient for MockOEISClient {
         async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error> {
-            Ok(self.responses.get(id).cloned().unwrap_or(None))
+            match self.responses.get(id) {
+                Some(MockResponse::Success(seq)) => Ok(seq.clone()),
+                Some(MockResponse::Error) => {
+                    // Create a mock reqwest error by making an invalid request
+                    Err(reqwest::get("http://invalid.invalid").await.unwrap_err())
+                }
+                None => Ok(None),
+            }
         }
     }
 
@@ -244,5 +264,54 @@ mod tests {
         let content = result.unwrap().content;
         assert_eq!(content.len(), 1);
         assert_eq!(content.first().unwrap(), &Content::text("https://oeis.org"));
+    }
+
+    #[tokio::test]
+    async fn test_find_by_id_tool_found() {
+        let fibonacci = create_test_sequence(45, "Fibonacci numbers");
+        let oeis = OEIS::new(MockOEISClient::new().with_sequence("A000045", fibonacci.clone()));
+        let params = Parameters(FindRequest {
+            id: "A000045".to_string(),
+        });
+
+        let result = oeis.find_by_id(params).await;
+        assert!(result.is_ok());
+
+        let content = result.unwrap().content;
+        assert_eq!(content.len(), 1);
+
+        assert_eq!(
+            content.first().unwrap(),
+            &Content::json(json!(FindResponse { result: fibonacci })).unwrap()
+        );
+    }
+
+    #[tokio::test]
+    async fn test_find_by_id_tool_not_found() {
+        let oeis = OEIS::new(MockOEISClient::new().with_not_found("NON_EXISTENT"));
+        let params = Parameters(FindRequest {
+            id: "NON_EXISTENT".to_string(),
+        });
+
+        let result = oeis.find_by_id(params).await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INVALID_PARAMS);
+        assert!(error.message.contains("No sequence found"));
+    }
+
+    #[tokio::test]
+    async fn test_find_by_id_tool_error() {
+        let oeis = OEIS::new(MockOEISClient::new().with_error("ERROR_CASE"));
+        let params = Parameters(FindRequest {
+            id: "ERROR_CASE".to_string(),
+        });
+
+        let result = oeis.find_by_id(params).await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INTERNAL_ERROR);
     }
 }
