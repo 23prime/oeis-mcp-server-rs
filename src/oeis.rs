@@ -199,6 +199,7 @@ mod tests {
 
         let result = client.find_by_id("A000045").await.unwrap();
         assert!(result.is_some());
+
         let sequence = result.unwrap();
         assert_eq!(sequence.number, 45);
         assert_eq!(sequence.name, "Fibonacci numbers");
@@ -214,11 +215,13 @@ mod tests {
 
     #[test]
     fn test_uri_parsing() {
-        // Test URI parsing logic
         let uri = "oeis://sequence/A000045";
         let id = uri.strip_prefix("oeis://sequence/");
         assert_eq!(id, Some("A000045"));
+    }
 
+    #[test]
+    fn test_uri_parsing_invalid() {
         let invalid_uri = "invalid://uri";
         let id = invalid_uri.strip_prefix("oeis://sequence/");
         assert_eq!(id, None);
@@ -237,6 +240,7 @@ mod tests {
 
         let result = oeis.get_url(Parameters(EmptyRequest {})).await;
         assert!(result.is_ok());
+
         let content = result.unwrap().content;
         assert_eq!(content.len(), 1);
         assert_eq!(content.first().unwrap(), &Content::text("https://oeis.org"));
