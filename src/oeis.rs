@@ -26,6 +26,23 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
             tool_router: Self::tool_router(),
         }
     }
+
+    /// Find a sequence by ID from the OEIS API
+    async fn find_sequence(&self, id: &str) -> Result<OEISSequence, McpError> {
+        let result = self
+            .client
+            .find_by_id(id)
+            .await
+            .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))?;
+
+        result.ok_or_else(|| {
+            McpError::new(
+                ErrorCode::INVALID_PARAMS,
+                format!("No sequence found (by id: {})", id),
+                None,
+            )
+        })
+    }
 }
 
 #[derive(Debug, Deserialize, JsonSchema)]
@@ -56,19 +73,7 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
     ) -> Result<CallToolResult, McpError> {
         info!("Find sequence by ID: {:?}", id);
 
-        let result = self
-            .client
-            .find_by_id(&id)
-            .await
-            .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))?;
-
-        let result: OEISSequence = result.ok_or({
-            McpError::new(
-                ErrorCode::INVALID_PARAMS,
-                format!("No sequence found (by id: {})", id),
-                None,
-            )
-        })?;
+        let result = self.find_sequence(&id).await?;
 
         Ok(CallToolResult::structured(json!(FindResponse { result })))
     }
@@ -107,19 +112,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
 
         // Parse URI pattern: oeis://sequence/{id}
         if let Some(id) = uri.strip_prefix("oeis://sequence/") {
-            let result = self
-                .client
-                .find_by_id(id)
-                .await
-                .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))?;
-
-            let sequence: OEISSequence = result.ok_or_else(|| {
-                McpError::new(
-                    ErrorCode::INVALID_PARAMS,
-                    format!("No sequence found (by id: {})", id),
-                    None,
-                )
-            })?;
+            let sequence = self.find_sequence(id).await?;
 
             // Return JSON representation of the sequence
             let json_content = serde_json::to_string_pretty(&sequence)
@@ -245,6 +238,43 @@ mod tests {
         let invalid_uri = "invalid://uri";
         let id = invalid_uri.strip_prefix("oeis://sequence/");
         assert_eq!(id, None);
+    }
+
+    // test for find_sequence helper
+    #[tokio::test]
+    async fn test_find_sequence_success() {
+        let fibonacci = create_test_sequence(45, "Fibonacci numbers");
+        let oeis = OEIS::new(MockOEISClient::new().with_sequence("A000045", fibonacci.clone()));
+
+        let result = oeis.find_sequence("A000045").await;
+        assert!(result.is_ok());
+
+        let sequence = result.unwrap();
+        assert_eq!(sequence.number, 45);
+        assert_eq!(sequence.name, "Fibonacci numbers");
+    }
+
+    #[tokio::test]
+    async fn test_find_sequence_not_found() {
+        let oeis = OEIS::new(MockOEISClient::new().with_not_found("NON_EXISTENT"));
+
+        let result = oeis.find_sequence("NON_EXISTENT").await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INVALID_PARAMS);
+        assert!(error.message.contains("No sequence found"));
+    }
+
+    #[tokio::test]
+    async fn test_find_sequence_error() {
+        let oeis = OEIS::new(MockOEISClient::new().with_error("ERROR_CASE"));
+
+        let result = oeis.find_sequence("ERROR_CASE").await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INTERNAL_ERROR);
     }
 
     // test for tools
