@@ -7,6 +7,7 @@ mod oeis_client;
 mod tracer;
 
 use oeis::OEIS;
+use oeis_client::OEISClientImpl;
 use tracer::setup_tracing;
 
 #[tokio::main]
@@ -18,7 +19,7 @@ async fn main() -> anyhow::Result<()> {
     let bind_address = format!("127.0.0.1:{}", port);
 
     let service = StreamableHttpService::new(
-        || Ok(OEIS::new()),
+        || Ok(OEIS::new(OEISClientImpl::new())),
         LocalSessionManager::default().into(),
         Default::default(),
     );

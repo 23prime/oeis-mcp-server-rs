@@ -1,5 +1,6 @@
 use std::collections::VecDeque;
 
+use async_trait::async_trait;
 use rmcp::schemars::{self, JsonSchema};
 use serde::{Deserialize, Serialize};
 use tracing::debug;
@@ -15,20 +16,29 @@ pub struct OEISSequence {
     pub keyword: String,
 }
 
-pub struct OEISClient {
+#[async_trait]
+pub trait OEISClient: Send + Sync {
+    async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error>;
+}
+
+#[derive(Clone)]
+pub struct OEISClientImpl {
     url: String,
     client: reqwest::Client,
 }
 
-impl OEISClient {
+impl OEISClientImpl {
     pub fn new() -> Self {
         Self {
             url: "https://oeis.org/search".to_string(),
             client: reqwest::Client::new(),
         }
     }
+}
 
-    pub async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error> {
+#[async_trait]
+impl OEISClient for OEISClientImpl {
+    async fn find_by_id(&self, id: &str) -> Result<Option<OEISSequence>, reqwest::Error> {
         let response = self
             .client
             .get(&self.url)
@@ -48,8 +58,8 @@ mod tests {
     use httpmock::{Mock, MockServer};
 
     // helpers
-    fn setup_test_client(server: &MockServer) -> OEISClient {
-        OEISClient {
+    fn setup_test_client(server: &MockServer) -> impl OEISClient {
+        OEISClientImpl {
             url: format!("{}/search", server.base_url()),
             client: reqwest::Client::new(),
         }
