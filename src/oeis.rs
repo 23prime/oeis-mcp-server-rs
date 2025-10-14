@@ -148,6 +148,7 @@ mod tests {
     use std::collections::HashMap;
 
     // Mock OEIS Client for testing
+    #[derive(Clone)]
     struct MockOEISClient {
         responses: HashMap<String, Option<OEISSequence>>,
     }
@@ -221,5 +222,23 @@ mod tests {
         let invalid_uri = "invalid://uri";
         let id = invalid_uri.strip_prefix("oeis://sequence/");
         assert_eq!(id, None);
+    }
+
+    // test for tools
+    #[test]
+    fn test_tool_router_definition() {
+        let oeis = OEIS::new(MockOEISClient::new());
+        assert!(oeis.tool_router.list_all().len() == 2);
+    }
+
+    #[tokio::test]
+    async fn test_get_url_tool() {
+        let oeis = OEIS::new(MockOEISClient::new());
+
+        let result = oeis.get_url(Parameters(EmptyRequest {})).await;
+        assert!(result.is_ok());
+        let content = result.unwrap().content;
+        assert_eq!(content.len(), 1);
+        assert_eq!(content.first().unwrap(), &Content::text("https://oeis.org"));
     }
 }
