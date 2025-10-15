@@ -2,7 +2,13 @@
 
 ## Usage
 
-<!-- TODO: write -->
+### Use Docker (recommended)
+
+1. Run on port 8000 (you can specify the host port)
+
+    ```sh
+    docker run -p 8000:8000 --name oeis-mcp-server ghcr.io/23prime/oeis-mcp-server:latest
+    ```
 
 ## Development
 
