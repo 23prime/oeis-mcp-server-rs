@@ -1,7 +1,11 @@
 use rmcp::{
     ErrorData as McpError, RoleServer, ServerHandler,
-    handler::server::{router::tool::ToolRouter, wrapper::Parameters},
+    handler::server::{
+        router::{prompt::PromptRouter, tool::ToolRouter},
+        wrapper::Parameters,
+    },
     model::*,
+    prompt, prompt_handler, prompt_router,
     schemars::{self, JsonSchema},
     service::RequestContext,
     tool, tool_handler, tool_router,
@@ -17,6 +21,7 @@ use crate::oeis_client::{OEISClient, OEISSequence};
 pub struct OEIS<C: OEISClient> {
     client: C,
     tool_router: ToolRouter<OEIS<C>>,
+    prompt_router: PromptRouter<OEIS<C>>,
 }
 
 impl<C: OEISClient + Clone + 'static> OEIS<C> {
@@ -24,6 +29,7 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
         Self {
             client,
             tool_router: Self::tool_router(),
+            prompt_router: Self::prompt_router(),
         }
     }
 
@@ -58,6 +64,12 @@ pub struct FindResponse {
     pub result: OEISSequence,
 }
 
+#[derive(Debug, Deserialize, JsonSchema)]
+pub struct SequenceAnalysisRequest {
+    /// The OEIS sequence ID to analyze (e.g., "A000045")
+    pub sequence_id: String,
+}
+
 #[tool_router]
 impl<C: OEISClient + Clone + 'static> OEIS<C> {
     #[tool(description = "Get a URL of OEIS entry.")]
@@ -79,7 +91,80 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
     }
 }
 
+#[prompt_router]
+impl<C: OEISClient + Clone + 'static> OEIS<C> {
+    /// Provides a comprehensive analysis of an OEIS sequence
+    #[prompt(
+        description = "Analyzes an OEIS sequence in detail, providing mathematical context, patterns, and related sequences"
+    )]
+    async fn sequence_analysis(
+        &self,
+        Parameters(SequenceAnalysisRequest { sequence_id }): Parameters<SequenceAnalysisRequest>,
+    ) -> Result<Vec<PromptMessage>, McpError> {
+        info!("Analyzing sequence: {:?}", sequence_id);
+        let sequence = self.find_sequence(&sequence_id).await?;
+        Ok(vec![
+            self.build_user_message(&sequence_id),
+            self.build_assistant_messages(&sequence),
+        ])
+    }
+
+    fn build_user_message(&self, sequence_id: &str) -> PromptMessage {
+        PromptMessage::new_text(
+            PromptMessageRole::User,
+            format!(
+                "Please provide a comprehensive analysis of OEIS sequence {}. \
+                Include:\n\
+                1. The definition and meaning of this sequence\n\
+                2. Mathematical properties and patterns\n\
+                3. Real-world applications or significance\n\
+                4. Relationships to other sequences\n\
+                5. Interesting facts or observations",
+                sequence_id
+            ),
+        )
+    }
+
+    fn build_assistant_messages(&self, sequence: &OEISSequence) -> PromptMessage {
+        // Assistant message: Provide the sequence data as context
+        let sequence_id_formatted = format!("A{:06}", sequence.number);
+        let comments_section = if !sequence.comment.is_empty() {
+            format!("**Comments:**\n{}\n\n", sequence.comment.join("\n"))
+        } else {
+            String::new()
+        };
+        let formulas_section = if !sequence.formula.is_empty() {
+            format!("**Formulas:**\n{}\n\n", sequence.formula.join("\n"))
+        } else {
+            String::new()
+        };
+        let xref_section = if !sequence.xref.is_empty() {
+            format!("**Cross-references:**\n{}\n\n", sequence.xref.join(", "))
+        } else {
+            String::new()
+        };
+
+        let analysis_context = format!(
+            "# OEIS Sequence {}\n\n\
+            **Name:** {}\n\n\
+            **Data (first few terms):** {}\n\n\
+            **Keywords:** {}\n\n\
+            {}{}{}",
+            sequence_id_formatted,
+            sequence.name,
+            sequence.data,
+            sequence.keyword,
+            comments_section,
+            formulas_section,
+            xref_section,
+        );
+
+        PromptMessage::new_text(PromptMessageRole::Assistant, analysis_context)
+    }
+}
+
 #[tool_handler]
+#[prompt_handler]
 impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
     async fn list_resource_templates(
         &self,
@@ -337,6 +422,79 @@ mod tests {
         });
 
         let result = oeis.find_by_id(params).await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INTERNAL_ERROR);
+    }
+
+    // Test for prompts
+    #[test]
+    fn test_prompt_router_definition() {
+        let oeis = OEIS::new(MockOEISClient::new());
+        assert!(oeis.prompt_router.list_all().len() == 1);
+    }
+
+    #[tokio::test]
+    async fn test_sequence_analysis_prompt() {
+        let fibonacci = create_test_sequence(45, "Fibonacci numbers");
+        let oeis = OEIS::new(MockOEISClient::new().with_sequence("A000045", fibonacci.clone()));
+
+        let params = Parameters(SequenceAnalysisRequest {
+            sequence_id: "A000045".to_string(),
+        });
+
+        let result = oeis.sequence_analysis(params).await;
+        assert!(result.is_ok());
+
+        let messages = result.unwrap();
+        assert_eq!(messages.len(), 2);
+
+        // Check first message is from user
+        assert_eq!(messages[0].role, PromptMessageRole::User);
+        if let PromptMessageContent::Text { text } = &messages[0].content {
+            assert!(text.contains("comprehensive analysis"));
+            assert!(text.contains("A000045"));
+        } else {
+            panic!("Expected text content");
+        }
+
+        // Check second message is from assistant with sequence data
+        assert_eq!(messages[1].role, PromptMessageRole::Assistant);
+        if let PromptMessageContent::Text { text } = &messages[1].content {
+            assert!(text.contains("Fibonacci numbers"));
+            assert!(text.contains("A000045"));
+            assert!(text.contains("0, 1, 1, 2, 3, 5, 8"));
+        } else {
+            panic!("Expected text content");
+        }
+    }
+
+    #[tokio::test]
+    async fn test_sequence_analysis_prompt_not_found() {
+        let oeis = OEIS::new(MockOEISClient::new().with_not_found("NON_EXISTENT"));
+
+        let params = Parameters(SequenceAnalysisRequest {
+            sequence_id: "NON_EXISTENT".to_string(),
+        });
+
+        let result = oeis.sequence_analysis(params).await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INVALID_PARAMS);
+        assert!(error.message.contains("No sequence found"));
+    }
+
+    #[tokio::test]
+    async fn test_sequence_analysis_prompt_error() {
+        let oeis = OEIS::new(MockOEISClient::new().with_error("ERROR_CASE"));
+
+        let params = Parameters(SequenceAnalysisRequest {
+            sequence_id: "ERROR_CASE".to_string(),
+        });
+
+        let result = oeis.sequence_analysis(params).await;
         assert!(result.is_err());
 
         let error = result.unwrap_err();

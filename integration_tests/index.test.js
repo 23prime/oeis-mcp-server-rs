@@ -20,7 +20,28 @@ const printObject = (obj) => {
 test("list prompts", async () => {
   const response = await client.listPrompts();
   printObject(response);
-  expect(response.prompts).toHaveLength(0);
+  expect(response.prompts).toHaveLength(1);
+});
+
+test("Prompt(sequence_analysis)", async () => {
+  const response = await client.getPrompt({
+    name: "sequence_analysis",
+    arguments: {
+      sequence_id: "A000045",
+    },
+  });
+
+  expect(response.messages).toHaveLength(2);
+
+  const userMessage = response.messages.find((msg) => msg.role === "user");
+  expect(userMessage).toBeDefined();
+  expect(userMessage.content.type).toBe("text");
+  expect(userMessage.content.text).toBeDefined();
+
+  const assistantMessage = response.messages.find((msg) => msg.role === "assistant");
+  expect(assistantMessage).toBeDefined();
+  expect(assistantMessage.content.type).toBe("text");
+  expect(assistantMessage.content.text).toBeDefined();
 });
 
 test("list tools", async () => {
