@@ -30,3 +30,17 @@
     ```sh
     task t:check
     ```
+
+### Use Docker
+
+1. Build
+
+    ```sh
+    docker build -t oeis-mcp-server:latest .
+    ```
+
+2. Run
+
+    ```sh
+    docker run -p 8000:8000 --name oeis-mcp-server oeis-mcp-server:latest
+    ```

@@ -1,0 +1,50 @@
+# Rust build artifacts
+target/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Mise/development tools
+.mise.toml
+.tool-versions
+
+# Documentation
+*.md
+!README.md
+
+# CI/CD
+.github/
+
+# Task runner
+Taskfile.yml
+tasks/
+
+# Tests
+tests/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
