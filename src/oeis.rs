@@ -126,23 +126,10 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
     }
 
     fn build_assistant_messages(&self, sequence: &OEISSequence) -> PromptMessage {
-        // Assistant message: Provide the sequence data as context
         let sequence_id_formatted = format!("A{:06}", sequence.number);
-        let comments_section = if !sequence.comment.is_empty() {
-            format!("**Comments:**\n{}\n\n", sequence.comment.join("\n"))
-        } else {
-            String::new()
-        };
-        let formulas_section = if !sequence.formula.is_empty() {
-            format!("**Formulas:**\n{}\n\n", sequence.formula.join("\n"))
-        } else {
-            String::new()
-        };
-        let xref_section = if !sequence.xref.is_empty() {
-            format!("**Cross-references:**\n{}\n\n", sequence.xref.join(", "))
-        } else {
-            String::new()
-        };
+        let comments_section = self.empty_or_join("Comments", &sequence.comment);
+        let formulas_section = self.empty_or_join("Formulas", &sequence.formula);
+        let xref_section = self.empty_or_join("Cross-references", &sequence.xref);
 
         let analysis_context = format!(
             "# OEIS Sequence {}\n\n\
@@ -160,6 +147,14 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
         );
 
         PromptMessage::new_text(PromptMessageRole::Assistant, analysis_context)
+    }
+
+    fn empty_or_join(&self, title: &str, contents: &[String]) -> String {
+        if contents.is_empty() {
+            String::new()
+        } else {
+            format!("**{}:**\n{}\n\n", title, contents.join("\n"))
+        }
     }
 }
 
