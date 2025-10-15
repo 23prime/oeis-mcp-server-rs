@@ -17,22 +17,16 @@ const printObject = (obj) => {
   console.dir(obj, { depth: null });
 };
 
-test("list tools", async () => {
-  const response = await client.listTools();
-  printObject(response);
-  expect(response.tools).toHaveLength(2);
-});
-
 test("list prompts", async () => {
   const response = await client.listPrompts();
   printObject(response);
   expect(response.prompts).toHaveLength(0);
 });
 
-test("list resource templates", async () => {
-  const response = await client.listResourceTemplates();
+test("list tools", async () => {
+  const response = await client.listTools();
   printObject(response);
-  expect(response.resourceTemplates).toHaveLength(1);
+  expect(response.tools).toHaveLength(2);
 });
 
 test("Tool(get_url)", async () => {
@@ -57,6 +51,12 @@ test("Tool(find_by_id)", async () => {
   expect(content.text).toBeDefined();
 
   expect(response.structuredContent).toBeDefined();
+});
+
+test("list resource templates", async () => {
+  const response = await client.listResourceTemplates();
+  printObject(response);
+  expect(response.resourceTemplates).toHaveLength(1);
 });
 
 test("Resource(oeis://sequence/{id})", async () => {
