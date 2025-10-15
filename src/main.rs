@@ -16,7 +16,7 @@ async fn main() -> anyhow::Result<()> {
     setup_tracing();
 
     let port = get_port_from_env();
-    let bind_address = format!("127.0.0.1:{}", port);
+    let bind_address = format!("0.0.0.0:{}", port);
 
     let service = StreamableHttpService::new(
         || Ok(OEIS::new(OEISClientImpl::new())),
