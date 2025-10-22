@@ -42,3 +42,13 @@ tasks:
       - gh:check
     aliases:
       - c
+
+  fix-and-check:
+    desc: "Fix and check"
+    deps:
+      - yml:check
+      - json:fix-and-check
+      - md:fix-and-check
+      - gh:check
+    aliases:
+      - fc
