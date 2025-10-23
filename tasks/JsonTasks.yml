@@ -1,20 +1,30 @@
 version: "3"
 
 tasks:
+  fix-and-check:
+    desc: "Fix and check JSON"
+    cmds:
+      - task: fix
+      - task: check
+  aliases:
+    - fc
+
+  fix:
+    desc: "Fix JSON"
+    cmds:
+      - task: fmt
+
   check:
     desc: "Check JSON"
     cmds:
-      - task: fmt
       - task: lint
-
-  fmt:
-    desc: "Format JSON"
-    cmds:
-      - biome format --write .
-    aliases:
-      - fix
 
   lint:
     desc: "Lint JSON"
     cmds:
       - biome lint .
+
+  fmt:
+    desc: "Format JSON"
+    cmds:
+      - biome format --write .
