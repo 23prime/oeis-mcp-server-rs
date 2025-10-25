@@ -1,23 +1,30 @@
 version: "3"
 
 tasks:
+  fix-and-check:
+    desc: "Fix and check Markdown"
+    cmds:
+      - task: fix
+      - task: check
+  aliases:
+    - fc
+
+  fix:
+    desc: "Fix Markdown"
+    cmds:
+      - task: lint:fix
+
   check:
     desc: "Check Markdown"
     cmds:
-      - task: fix
       - task: lint
-
-  fix:
-    desc: "Auto fix Markdown"
-    cmds:
-      - task: lint-fix
 
   lint:
     desc: "Run markdownlint on project markdown files"
     cmds:
       - markdownlint .
 
-  lint-fix:
+  lint:fix:
     desc: "Fix markdownlint issues automatically"
     cmds:
       - markdownlint . --fix
