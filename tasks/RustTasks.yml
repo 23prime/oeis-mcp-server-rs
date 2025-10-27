@@ -22,10 +22,23 @@ tasks:
     cmds:
       - watchexec -e rs -r cargo run
 
+  fix-and-check:
+    desc: "Fix and check Rust code"
+    cmds:
+      - task: fix
+      - task: check
+  aliases:
+    - fc
+
+  fix:
+    desc: "Fix Rust code"
+    cmds:
+      - task: lint:fix
+      - task: fmt
+
   check:
     desc: "Check Rust code"
     cmds:
-      - task: fix
       - task: lint
       - task: test
 
@@ -43,12 +56,6 @@ tasks:
     desc: "Run Rust tests"
     cmds:
       - cargo test -- --nocapture
-
-  fix:
-    desc: "Fix lint and format Rust code"
-    cmds:
-      - task: lint:fix
-      - task: fmt
 
   lint:
     desc: "Lint Rust code"

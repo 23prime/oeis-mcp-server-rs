@@ -19,3 +19,4 @@ watchexec = "latest"
 
 # integration test
 pnpm = "latest"
+lefthook = "latest"
