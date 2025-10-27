@@ -1,0 +1,11 @@
+# See: https://lefthook.dev/configuration/
+
+pre-push:
+  jobs:
+    - name: task check
+      run: task fix-and-check
+
+pre-commit:
+  jobs:
+    - name: task check
+      run: task check
