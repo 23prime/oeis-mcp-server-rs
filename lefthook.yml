@@ -3,7 +3,7 @@
 pre-push:
   jobs:
     - name: task check
-      run: task fix-and-check
+      run: task check
 
 pre-commit:
   jobs:
