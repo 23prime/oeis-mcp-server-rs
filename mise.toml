@@ -15,11 +15,8 @@ shellcheck = "latest"
 
 # Other tools
 fzf = "latest"
-<<<<<<< HEAD
 watchexec = "latest"
 
 # integration test
 pnpm = "latest"
-=======
 lefthook = "latest"
->>>>>>> upstream/main
