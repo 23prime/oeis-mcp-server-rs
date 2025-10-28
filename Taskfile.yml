@@ -54,6 +54,9 @@ tasks:
       - json:fix-and-check
       - md:fix-and-check
       - gh:check
+<<<<<<< HEAD
       - rs:fix-and-check
+=======
+>>>>>>> upstream/main
     aliases:
       - fc

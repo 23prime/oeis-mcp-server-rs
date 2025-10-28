@@ -3,7 +3,11 @@
 pre-push:
   jobs:
     - name: task check
+<<<<<<< HEAD
       run: task fix-and-check
+=======
+      run: task check
+>>>>>>> upstream/main
 
 pre-commit:
   jobs:
