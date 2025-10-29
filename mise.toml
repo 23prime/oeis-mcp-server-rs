@@ -16,7 +16,7 @@ shellcheck = "latest"
 # Other tools
 fzf = "latest"
 watchexec = "latest"
+lefthook = "latest"
 
 # integration test
 pnpm = "latest"
-lefthook = "latest"
