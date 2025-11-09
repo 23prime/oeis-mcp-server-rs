@@ -17,6 +17,29 @@ const printObject = (obj) => {
   console.dir(obj, { depth: null });
 };
 
+test("server version", async () => {
+  const version = await client.getServerVersion();
+  printObject(version);
+  expect(version.name).toBe("rmcp");
+  expect(version.version).toBe("0.8.3");
+});
+
+test("server capabilities", async () => {
+  const capabilities = await client.getServerCapabilities();
+  printObject(capabilities);
+  expect(capabilities.prompts).toBeDefined();
+  expect(capabilities.resources).toBeDefined();
+  expect(capabilities.tools).toBeDefined();
+});
+
+test("server instructions", async () => {
+  const instructions = await client.getInstructions();
+  printObject(instructions);
+  expect(instructions).toContain(
+    "This server provides access to the OEIS (Online Encyclopedia of Integer Sequences) database."
+  );
+});
+
 test("list prompts", async () => {
   const response = await client.listPrompts();
   printObject(response);
