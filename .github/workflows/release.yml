@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  APP_NAME: oeis-mcp-server-rs
+  APP_NAME: oeis-mcp-server
 
 jobs:
   build:

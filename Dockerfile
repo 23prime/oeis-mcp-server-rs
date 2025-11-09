@@ -1,7 +1,7 @@
 #
 # Configuration
 #
-ARG APP_NAME=oeis-mcp-server-rs
+ARG APP_NAME=oeis-mcp-server
 ARG PLATFORM=x86_64-unknown-linux-musl
 
 
