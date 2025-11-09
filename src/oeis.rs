@@ -169,7 +169,13 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
                 .enable_resources()
                 .enable_tools()
                 .build(),
-            server_info: Implementation::from_build_env(),
+            server_info: Implementation {
+                name: env!("CARGO_PKG_NAME").to_string(),
+                title: Some("OEIS MCP server".to_string()),
+                version: env!("CARGO_PKG_VERSION").to_string(),
+                icons: None,
+                website_url: Some("https://github.com/23prime/oeis-mcp-server-rs".to_string()),
+            },
             instructions: Some("This server provides access to the OEIS (Online Encyclopedia of Integer Sequences) database. Tools: get_url (returns the OEIS homepage URL), find_by_id (search for a sequence by ID like 'A000045'). Prompts: sequence_analysis (provides comprehensive analysis of an OEIS sequence). Resources: oeis://sequence/{id} (direct access to sequence data as JSON). Use this server to look up integer sequences, analyze their mathematical properties, and explore relationships between sequences.".to_string()),
         }
     }

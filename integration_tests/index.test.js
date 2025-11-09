@@ -20,8 +20,11 @@ const printObject = (obj) => {
 test("server version", async () => {
   const version = await client.getServerVersion();
   printObject(version);
-  expect(version.name).toBe("rmcp");
-  expect(version.version).toBe("0.8.3");
+  expect(version.name).toBe("oeis-mcp-server-rs");
+  expect(version.title).toBe("OEIS MCP server");
+  expect(version.version).toBe("0.1.0");
+  expect(version.websiteUrl).toBe("https://github.com/23prime/oeis-mcp-server-rs");
+  expect(version.icons).toBeUndefined();
 });
 
 test("server capabilities", async () => {
