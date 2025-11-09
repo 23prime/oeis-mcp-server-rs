@@ -57,3 +57,13 @@ tasks:
       - rs:fix-and-check
     aliases:
       - fc
+
+  tag:
+    desc: "Create release tag from Cargo.toml version"
+    cmds:
+      - ./create-release-tag.sh
+
+  tag:push:
+    desc: "Push tag"
+    cmds:
+      - git push --follow-tags

@@ -58,3 +58,26 @@
     ```sh
     docker run -p 8000:8000 --name oeis-mcp-server oeis-mcp-server:latest
     ```
+
+### Release
+
+1. Update version in `Cargo.toml`
+
+    ```toml
+    [package]
+    version = "0.2.0"
+    ```
+
+2. Create release tag
+
+    ```sh
+    task tag
+    ```
+
+3. Push release tag
+
+    ```sh
+    task tag:push
+    ```
+
+4. GitHub Actions will automatically build and release binaries
