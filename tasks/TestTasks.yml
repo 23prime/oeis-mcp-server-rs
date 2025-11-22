@@ -9,6 +9,7 @@ tasks:
 
   fix-and-check:
     desc: "Fix and check"
+    dir: integration_tests
     cmds:
       - task: fix
       - task: check
