@@ -73,7 +73,7 @@ test("Prompt(sequence_analysis)", async () => {
 test("list tools", async () => {
   const response = await client.listTools();
   printObject(response);
-  expect(response.tools).toHaveLength(2);
+  expect(response.tools).toHaveLength(3);
 });
 
 test("Tool(get_url)", async () => {
@@ -89,6 +89,22 @@ test("Tool(get_url)", async () => {
 
 test("Tool(find_by_id)", async () => {
   const response = await client.callTool({ name: "find_by_id", arguments: { id: "A000045" } });
+
+  expect(response.isError).toBe(false);
+  expect(response.content).toHaveLength(1);
+
+  const content = response.content[0];
+  expect(content.type).toBe("text");
+  expect(content.text).toBeDefined();
+
+  expect(response.structuredContent).toBeDefined();
+});
+
+test.only("Tool(search_by_subsequence)", async () => {
+  const response = await client.callTool({
+    name: "search_by_subsequence",
+    arguments: { subsequence: [1, 1, 2, 3, 5] },
+  });
 
   expect(response.isError).toBe(false);
   expect(response.content).toHaveLength(1);

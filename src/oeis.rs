@@ -49,6 +49,14 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
             )
         })
     }
+
+    /// Search sequences by subsequence from the OEIS API
+    async fn search_sequences(&self, subsequence: &[i64]) -> Result<Vec<OEISSequence>, McpError> {
+        self.client
+            .search_by_subsequence(subsequence)
+            .await
+            .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))
+    }
 }
 
 #[derive(Debug, Deserialize, JsonSchema)]
@@ -62,6 +70,16 @@ pub struct FindRequest {
 #[derive(Debug, Serialize, JsonSchema)]
 pub struct FindResponse {
     pub result: OEISSequence,
+}
+
+#[derive(Debug, Deserialize, JsonSchema)]
+pub struct SearchRequest {
+    pub subsequence: Vec<i64>,
+}
+
+#[derive(Debug, Serialize, Deserialize, JsonSchema)]
+pub struct SearchResponse {
+    pub results: Vec<OEISSequence>,
 }
 
 #[derive(Debug, Deserialize, JsonSchema)]
@@ -88,6 +106,20 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
         let result = self.find_sequence(&id).await?;
 
         Ok(CallToolResult::structured(json!(FindResponse { result })))
+    }
+
+    #[tool(description = "Search sequences by subsequence.")]
+    async fn search_by_subsequence(
+        &self,
+        Parameters(SearchRequest { subsequence }): Parameters<SearchRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        info!("Search sequences by subsequence: {:?}", subsequence);
+
+        let results = self.search_sequences(&subsequence).await?;
+
+        Ok(CallToolResult::structured(json!(SearchResponse {
+            results
+        })))
     }
 }
 
@@ -149,11 +181,15 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
         PromptMessage::new_text(PromptMessageRole::Assistant, analysis_context)
     }
 
-    fn empty_or_join(&self, title: &str, contents: &[String]) -> String {
-        if contents.is_empty() {
+    fn empty_or_join(&self, title: &str, contents: &Option<Vec<String>>) -> String {
+        if contents.clone().is_none_or(|c| c.is_empty()) {
             String::new()
         } else {
-            format!("**{}:**\n{}\n\n", title, contents.join("\n"))
+            format!(
+                "**{}:**\n{}\n\n",
+                title,
+                contents.as_ref().unwrap().join("\n")
+            )
         }
     }
 }
@@ -176,7 +212,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
                 icons: None,
                 website_url: Some("https://github.com/23prime/oeis-mcp-server-rs".to_string()),
             },
-            instructions: Some("This server provides access to the OEIS (Online Encyclopedia of Integer Sequences) database. Tools: get_url (returns the OEIS homepage URL), find_by_id (search for a sequence by ID like 'A000045'). Prompts: sequence_analysis (provides comprehensive analysis of an OEIS sequence). Resources: oeis://sequence/{id} (direct access to sequence data as JSON). Use this server to look up integer sequences, analyze their mathematical properties, and explore relationships between sequences.".to_string()),
+            instructions: Some("This server provides access to the OEIS (Online Encyclopedia of Integer Sequences) database. Tools: get_url (returns the OEIS homepage URL), find_by_id (search for a sequence by ID like 'A000045'), search_by_subsequence (search for sequences matching a given subsequence like [1,1,2,3,5]). Prompts: sequence_analysis (provides comprehensive analysis of an OEIS sequence). Resources: oeis://sequence/{id} (direct access to sequence data as JSON). Use this server to look up integer sequences, analyze their mathematical properties, and explore relationships between sequences.".to_string()),
         }
     }
 
@@ -243,7 +279,9 @@ mod tests {
     // Mock OEIS Client for testing
     #[derive(Clone)]
     enum MockResponse {
+        // TODO: normalize Option / Vec
         Success(Option<OEISSequence>),
+        SuccessMulti(Vec<OEISSequence>),
         Error,
     }
 
@@ -265,6 +303,18 @@ mod tests {
             self
         }
 
+        fn with_sequences(mut self, subsequence: &[i64], sequences: Vec<OEISSequence>) -> Self {
+            self.responses.insert(
+                subsequence
+                    .iter()
+                    .map(|i| i.to_string())
+                    .collect::<Vec<String>>()
+                    .join(","),
+                MockResponse::SuccessMulti(sequences),
+            );
+            self
+        }
+
         fn with_not_found(mut self, id: &str) -> Self {
             self.responses
                 .insert(id.to_string(), MockResponse::Success(None));
@@ -281,9 +331,32 @@ mod tests {
     impl OEISClient for MockOEISClient {
         async fn find_by_id(&self, id: &str) -> anyhow::Result<Option<OEISSequence>> {
             match self.responses.get(id) {
-                Some(MockResponse::Success(seq)) => Ok(seq.clone()),
+                Some(MockResponse::Success(sequence)) => Ok(sequence.clone()),
+                Some(MockResponse::SuccessMulti(_)) => {
+                    Err(anyhow!("MockOEISClient: use Success for find_by_id"))
+                }
                 Some(MockResponse::Error) => Err(anyhow!("Mock error")),
                 None => Ok(None),
+            }
+        }
+
+        async fn search_by_subsequence(
+            &self,
+            subsequence: &[i64],
+        ) -> anyhow::Result<Vec<OEISSequence>> {
+            let key = subsequence
+                .iter()
+                .map(|i| i.to_string())
+                .collect::<Vec<String>>()
+                .join(",");
+
+            match self.responses.get(&key) {
+                Some(MockResponse::SuccessMulti(sequences)) => Ok(sequences.clone()),
+                Some(MockResponse::Success(_)) => Err(anyhow!(
+                    "MockOEISClient: use SuccessMulti for subsequence searches"
+                )),
+                Some(MockResponse::Error) => Err(anyhow!("Mock error")),
+                None => Ok(vec![]),
             }
         }
     }
@@ -293,9 +366,9 @@ mod tests {
             number,
             data: "0, 1, 1, 2, 3, 5, 8".to_string(),
             name: name.to_string(),
-            comment: vec!["Test comment".to_string()],
-            formula: vec!["Test formula".to_string()],
-            xref: vec!["A000001".to_string()],
+            comment: Some(vec!["Test comment".to_string()]),
+            formula: Some(vec!["Test formula".to_string()]),
+            xref: Some(vec!["A000001".to_string()]),
             keyword: "nonn".to_string(),
         }
     }
@@ -374,11 +447,36 @@ mod tests {
         assert_eq!(error.code, ErrorCode::INTERNAL_ERROR);
     }
 
-    // test for tools
+    // helpers for tool router definition checking
+    fn get_tool(tools: &[Tool], name: &str) -> Option<Tool> {
+        tools.iter().find(|t| t.name == name).cloned()
+    }
+
+    fn get_tool_description(tool: Tool) -> String {
+        tool.description.as_ref().unwrap().clone().into_owned()
+    }
+
     #[test]
     fn test_tool_router_definition() {
         let oeis = OEIS::new(MockOEISClient::new());
-        assert!(oeis.tool_router.list_all().len() == 2);
+
+        let tools = oeis.tool_router.list_all();
+        assert!(tools.len() == 3);
+
+        let get_url_tool = get_tool(&tools, "get_url");
+        assert!(get_url_tool.is_some());
+        assert!(get_tool_description(get_url_tool.unwrap()) == "Get a URL of OEIS entry.");
+
+        let find_by_id_tool = get_tool(&tools, "find_by_id");
+        assert!(find_by_id_tool.is_some());
+        assert!(get_tool_description(find_by_id_tool.unwrap()) == "Find a sequence by its ID.");
+
+        let search_by_subsequence_tool = get_tool(&tools, "search_by_subsequence");
+        assert!(search_by_subsequence_tool.is_some());
+        assert!(
+            get_tool_description(search_by_subsequence_tool.unwrap())
+                == "Search sequences by subsequence."
+        );
     }
 
     #[tokio::test]
@@ -440,6 +538,74 @@ mod tests {
 
         let error = result.unwrap_err();
         assert_eq!(error.code, ErrorCode::INTERNAL_ERROR);
+    }
+
+    #[tokio::test]
+    async fn test_search_by_subsequence_tool_found() {
+        let fibonacci = create_test_sequence(45, "Fibonacci numbers");
+        let catalan = create_test_sequence(108, "Catalan numbers");
+        let sequences = vec![fibonacci.clone(), catalan.clone()];
+
+        let oeis = OEIS::new(
+            MockOEISClient::new().with_sequences(&[0, 1, 1, 2, 3, 5, 8], sequences.clone()),
+        );
+        let params = Parameters(SearchRequest {
+            subsequence: vec![0, 1, 1, 2, 3, 5, 8],
+        });
+
+        let result = oeis.search_by_subsequence(params).await;
+        assert!(result.is_ok());
+
+        let content = result.unwrap().content;
+        assert_eq!(content.len(), 1);
+
+        assert_eq!(
+            content.first().unwrap(),
+            &Content::json(json!(SearchResponse { results: sequences })).unwrap()
+        );
+    }
+
+    #[tokio::test]
+    async fn test_search_by_subsequence_tool_not_found() {
+        let oeis = OEIS::new(MockOEISClient::new());
+        let params = Parameters(SearchRequest {
+            subsequence: vec![999, 888, 777],
+        });
+
+        let result = oeis.search_by_subsequence(params).await;
+        assert!(result.is_ok());
+
+        let content = result.unwrap().content;
+        assert_eq!(content.len(), 1);
+
+        assert_eq!(
+            content.first().unwrap(),
+            &Content::json(json!(SearchResponse { results: vec![] })).unwrap()
+        );
+    }
+
+    #[tokio::test]
+    async fn test_search_by_subsequence_tool_error() {
+        let subsequence = vec![1, 2, 3];
+        let oeis = OEIS::new(
+            MockOEISClient::new().with_error(
+                &subsequence
+                    .iter()
+                    .map(|i| i.to_string())
+                    .collect::<Vec<String>>()
+                    .join(","),
+            ),
+        );
+        let params = Parameters(SearchRequest {
+            subsequence: subsequence.clone(),
+        });
+
+        let result = oeis.search_by_subsequence(params).await;
+        assert!(result.is_err());
+
+        let error = result.unwrap_err();
+        assert_eq!(error.code, ErrorCode::INTERNAL_ERROR);
+        assert!(error.message.contains("Mock error"));
     }
 
     // Test for prompts
