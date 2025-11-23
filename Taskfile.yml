@@ -19,13 +19,6 @@ tasks:
     aliases:
       - l
 
-  select-run:
-    desc: "Select and run with fzf"
-    cmds:
-      - ./tasks/task-select-run.sh
-    aliases:
-      - sr
-
   setup:
     desc: "Setup project"
     cmds:
