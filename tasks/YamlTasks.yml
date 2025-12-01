@@ -1,6 +1,17 @@
 version: "3"
 
 tasks:
+  init:
+    desc: "Initialize uv project"
+    cmds:
+      - "[ -f pyproject.toml ] || uv init --bare"
+
+  setup:
+    desc: "Setup YAML tools"
+    cmds:
+      - task: init
+      - uv add --dev yamllint
+
   check:
     desc: "Check YAML"
     cmds:
@@ -9,4 +20,4 @@ tasks:
   lint:
     desc: "Lint YAML"
     cmds:
-      - yamllint .
+      - uv run yamllint .

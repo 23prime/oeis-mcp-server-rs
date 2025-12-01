@@ -23,6 +23,7 @@ tasks:
     desc: "Setup project"
     cmds:
       - task: mise:setup
+      - task: yml:setup
     aliases:
       - s
 
