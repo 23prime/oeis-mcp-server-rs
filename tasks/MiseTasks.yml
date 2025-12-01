@@ -7,6 +7,11 @@ tasks:
       - mise trust -yq
       - mise install
 
+  update:
+    desc: "Update tools"
+    cmds:
+      - mise upgrade
+
   versions:
     desc: "Show tool versions"
     cmds:

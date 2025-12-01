@@ -26,6 +26,13 @@ tasks:
     aliases:
       - s
 
+  update:
+    desc: "Update project dependencies"
+    cmds:
+      - task: mise:update
+    aliases:
+      - u
+
   check:
     desc: "Check"
     deps:
