@@ -1,6 +1,6 @@
 // See: https://biomejs.dev/guides/configure-biome/
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "formatter": {
     "indentStyle": "space",
     "lineEnding": "lf",
