@@ -1,7 +1,6 @@
 [tools]
 # YAML
-uv = "latest"       # for install yamllint
-yamllint = "latest"
+uv = "latest" # for install yamllint
 
 # Markdown
 "npm:markdownlint-cli" = "latest"
