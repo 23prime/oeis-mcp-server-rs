@@ -10,6 +10,9 @@ on:
       - "**/*.md"
       - ".github/workflows/check-markdown.yml"
 
+permissions:
+  contents: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -26,7 +29,7 @@ jobs:
         uses: jdx/mise-action@v3
         with:
           install: true
-          install_args: "npm:markdownlint-cli"
+          install_args: "markdownlint-cli2"
           cache: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 

@@ -10,6 +10,9 @@ on:
       - "**/*.json"
       - ".github/workflows/check-json.yml"
 
+permissions:
+  contents: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
