@@ -1,0 +1,41 @@
+/*
+ * See:
+ * - https://github.com/DavidAnson/markdownlint/tree/main/doc
+ * - https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
+ * - https://github.com/DavidAnson/markdownlint-cli2/blob/main/test/markdownlint-cli2-jsonc-example/.markdownlint-cli2.jsonc
+ */
+
+{
+  // Rules
+  "config": {
+    // MD004/ul-style
+    "MD004": { "style": "dash" },
+
+    // MD013/line-length
+    "MD013": false,
+
+    // MD033/no-inline-html
+    "MD033": {
+      "allowed_elements": ["br"]
+    },
+
+    // MD049/emphasis-style
+    "MD049": {
+      "style": "asterisk"
+    },
+
+    // MD050/strong-style
+    "MD050": {
+      "style": "asterisk"
+    }
+  },
+
+  // Fix any fixable errors
+  "fix": true,
+
+  // Ignore files referenced by .gitignore (only valid at root)
+  "gitignore": true,
+
+  // Show found files on stdout (only valid at root)
+  "showFound": true
+}
