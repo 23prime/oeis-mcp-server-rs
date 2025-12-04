@@ -3,21 +3,21 @@
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**/*.json", "**/*.jsonc", "!**/node_modules", "!target"],
+    "includes": ["**/*.json", "**/*.jsonc", "!**/node_modules", "!target"]
   },
   "formatter": {
     "indentStyle": "space",
     "lineEnding": "lf",
     "lineWidth": 120,
-    "formatWithErrors": true,
+    "formatWithErrors": true
   },
   "json": {
     "parser": {
-      "allowTrailingCommas": true,
+      "allowTrailingCommas": true
     },
     "formatter": {
       "enabled": true,
-      "trailingCommas": "none",
-    },
-  },
+      "trailingCommas": "none"
+    }
+  }
 }
