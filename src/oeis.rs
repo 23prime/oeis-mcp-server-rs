@@ -235,6 +235,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
                 .no_annotation(),
             ],
             next_cursor: None,
+            meta: None,
         })
     }
 
