@@ -7,6 +7,6 @@
   "devDependencies": {
     "@modelcontextprotocol/sdk": "^1.25.2",
     "prettier": "^3.7.4",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.17"
   }
 }
