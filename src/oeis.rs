@@ -231,6 +231,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
                     title: None,
                     description: Some("OEIS sequence data by ID (e.g., A000045)".to_string()),
                     mime_type: Some("application/json".to_string()),
+                    icons: None,
                 }
                 .no_annotation(),
             ],
