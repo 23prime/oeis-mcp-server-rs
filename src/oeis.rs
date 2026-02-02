@@ -218,7 +218,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
 
     async fn list_resource_templates(
         &self,
-        _request: Option<PaginatedRequestParam>,
+        _request: Option<PaginatedRequestParams>,
         _: RequestContext<RoleServer>,
     ) -> Result<ListResourceTemplatesResult, McpError> {
         info!("Listing resource templates");
@@ -242,7 +242,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
 
     async fn read_resource(
         &self,
-        ReadResourceRequestParam { uri }: ReadResourceRequestParam,
+        ReadResourceRequestParams { uri, .. }: ReadResourceRequestParams,
         _: RequestContext<RoleServer>,
     ) -> Result<ReadResourceResult, McpError> {
         info!("Reading resource: {:?}", uri);
