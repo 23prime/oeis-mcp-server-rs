@@ -2,10 +2,10 @@
 
 pre-push:
   jobs:
-    - name: mise fix-and-check
-      run: mise fix-and-check
+    - name: mise check
+      run: mise check
 
 pre-commit:
   jobs:
-    - name: mise fix-and-check
-      run: mise fix-and-check
+    - name: mise check
+      run: mise check
