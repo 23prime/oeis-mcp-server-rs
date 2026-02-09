@@ -19,5 +19,4 @@ tasks:
       - shellcheck --version
       - uv --version
       - markdownlint --version
-      - biome --version
       - actionlint --version

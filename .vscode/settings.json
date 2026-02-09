@@ -1,18 +1,4 @@
 {
-  // JSON
-  "[json]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[jsonc]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit"
-  },
-  "biome.enabled": true,
-
   // Markdown
   "[markdown]": {
     "editor.formatOnSave": true,

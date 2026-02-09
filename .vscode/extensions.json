@@ -4,7 +4,6 @@
     "tamasfe.even-better-toml",
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",
-    "DavidAnson.vscode-markdownlint",
-    "biomejs.biome"
+    "DavidAnson.vscode-markdownlint"
   ]
 }

@@ -2,9 +2,6 @@
 # Markdown
 markdownlint-cli2 = "latest"
 
-# JSON
-biome = "latest"
-
 # GitHub Actions
 actionlint = "latest"
 shellcheck = "latest"
