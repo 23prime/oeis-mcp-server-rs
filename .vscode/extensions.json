@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "task.vscode-task",
     "tamasfe.even-better-toml",
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",

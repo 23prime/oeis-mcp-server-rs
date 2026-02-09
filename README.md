@@ -1,19 +1,19 @@
-# Taskfile mise Template
+# Development Template with mise
 
-A Template for development with [Taskfile](https://taskfile.dev) and [mise](https://mise.jdx.dev).
+A Template for development with [mise](https://mise.jdx.dev).
 
 ## Getting started
 
 1. Clone this repository.
 
     ```bash
-    git clone git@github.com:23prime/taskfile-mise-template.git
+    git clone git@github.com:23prime/mise-template.git
     ```
 
 2. Copy the cloned repository to anywhere..
 
     ```bash
-    cp -ar taskfile-mise-template <your-repo-path>
+    cp -ar mise-template <your-repo-path>
     ```
 
 3. Into your repository.
@@ -49,8 +49,8 @@ A Template for development with [Taskfile](https://taskfile.dev) and [mise](http
     $ git remote -v
     origin  <your-remote-url> (fetch)
     origin  <your-remote-url> (push)
-    upstream        git@github.com:23prime/taskfile-mise-template.git (fetch)
-    upstream        git@github.com:23prime/taskfile-mise-template.git (push)
+    upstream        git@github.com:23prime/mise-template.git (fetch)
+    upstream        git@github.com:23prime/mise-template.git (push)
     ```
 
 ## Merge from upstream
