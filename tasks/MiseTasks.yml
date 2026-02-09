@@ -18,7 +18,6 @@ tasks:
       - mise --version
       - shellcheck --version
       - uv --version
-      - yamllint --version
       - markdownlint --version
       - biome --version
       - actionlint --version

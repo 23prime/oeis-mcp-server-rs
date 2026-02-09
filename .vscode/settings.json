@@ -1,14 +1,4 @@
 {
-  // YAML
-  "yaml.format.enable": true,
-  "yaml.schemas": {
-    "https://json.schemastore.org/taskfile.json": "tasks/*.yml"
-  },
-  "[yaml]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-
   // JSON
   "[json]": {
     "editor.formatOnSave": true,

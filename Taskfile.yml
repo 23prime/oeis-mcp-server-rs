@@ -2,7 +2,6 @@ version: "3"
 
 includes:
   mise: tasks/MiseTasks.yml
-  yml: tasks/YamlTasks.yml
   json: tasks/JsonTasks.yml
   md: tasks/MarkdownTasks.yml
   gh: tasks/GitHubTasks.yml
@@ -23,7 +22,6 @@ tasks:
     desc: "Setup project"
     cmds:
       - task: mise:setup
-      - task: yml:setup
     aliases:
       - s
 
@@ -37,7 +35,6 @@ tasks:
   check:
     desc: "Check"
     deps:
-      - yml:check
       - json:check
       - md:check
       - gh:check
@@ -47,7 +44,6 @@ tasks:
   fix-and-check:
     desc: "Fix and check"
     deps:
-      - yml:check
       - json:fix-and-check
       - md:fix-and-check
       - gh:check
