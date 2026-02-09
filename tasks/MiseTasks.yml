@@ -17,6 +17,5 @@ tasks:
     cmds:
       - mise --version
       - shellcheck --version
-      - uv --version
       - markdownlint --version
       - actionlint --version
