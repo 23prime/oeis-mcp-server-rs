@@ -2,9 +2,9 @@
   // Markdown
   "[markdown]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
 
   // Dictionary for spell checker
-  "cSpell.words": ["shellcheck"],
+  "cSpell.words": ["shellcheck"]
 }
