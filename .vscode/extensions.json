@@ -1,11 +1,8 @@
 {
   "recommendations": [
-    "task.vscode-task",
     "tamasfe.even-better-toml",
-    "redhat.vscode-yaml",
     "GitHub.vscode-github-actions",
     "EditorConfig.EditorConfig",
-    "DavidAnson.vscode-markdownlint",
-    "biomejs.biome"
+    "DavidAnson.vscode-markdownlint"
   ]
 }
