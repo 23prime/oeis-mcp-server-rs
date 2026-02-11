@@ -68,6 +68,12 @@
     version = "0.2.0"
     ```
 
+    (Alternative) You can update  with the command:
+
+    ```sh
+    cargo set-version 0.2.0
+    ```
+
 2. Create release tag
 
     ```sh
