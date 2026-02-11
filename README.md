@@ -22,27 +22,27 @@
 
 ### Pre-requirements
 
-- [Taskfile](https://taskfile.dev)
 - [mise](https://mise.jdx.dev)
+- [rustup](https://rustup.rs)
 
 ### Run application
 
 1. Setup
 
     ```sh
-    task setup
+    mise run setup
     ```
 
 2. Run app
 
     ```sh
-    task rs:dev
+    mise run rs-dev
     ```
 
 3. Run integration tests at another terminal
 
     ```sh
-    task t:check
+    mise run test-check
     ```
 
 ### Use Docker
@@ -71,13 +71,13 @@
 2. Create release tag
 
     ```sh
-    task tag
+    mise run tag
     ```
 
 3. Push release tag
 
     ```sh
-    task tag:push
+    mise run tag-push
     ```
 
 4. GitHub Actions will automatically build and release binaries

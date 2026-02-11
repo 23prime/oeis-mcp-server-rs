@@ -30,12 +30,12 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix"]
+depends = ["md-fix", "rs-fix", "test-fix"]
 alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check"]
+depends = ["md-check", "gh-check", "rs-check", "test-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -59,3 +59,71 @@ alias = "mc"
 description = "Check GitHub Actions workflows"
 run = "actionlint .github/workflows/*.yml"
 alias = "ghc"
+
+# Rust
+[tasks.rs-install]
+description = "Install Rust dependencies"
+run = "cargo fetch"
+
+[tasks.rs-versions]
+description = "Show Rust versions"
+run = ["rustc --version", "cargo --version"]
+
+[tasks.rs-dev]
+description = "Run Rust application with hot-reloading on changes"
+run = "watchexec -e rs -r cargo run"
+alias = "rd"
+
+[tasks.rs-fix]
+description = "Fix Rust code"
+run = [
+  "cargo clippy --all-targets --all-features --no-deps --fix --allow-dirty",
+  "cargo fmt",
+]
+alias = "rf"
+
+[tasks.rs-check]
+description = "Check Rust code"
+run = [
+  "cargo clippy --all-targets --all-features --no-deps",
+  "cargo fmt -- --check",
+  "cargo test -- --nocapture",
+]
+alias = "rc"
+
+[tasks.rs-build]
+description = "Build Rust application"
+run = "cargo build"
+
+[tasks.rs-build-release]
+description = "Build Rust application in release mode"
+run = "cargo build --release"
+
+[tasks.rs-clean]
+description = "Clean Rust build artifacts"
+run = "cargo clean"
+
+# Integration tests
+[tasks.test-install]
+description = "Install integration test dependencies"
+run = ["pnpm install"]
+dir = "integration_tests"
+alias = "ti"
+
+[tasks.test-fix]
+description = "Fix integration test code"
+run = ["pnpm run format"]
+dir = "integration_tests"
+alias = "tf"
+
+[tasks.test-check]
+description = "Check integration tests"
+run = ["pnpm run format:check"]
+dir = "integration_tests"
+alias = "tc"
+
+[tasks.test-run]
+description = "Run integration tests"
+run = ["pnpm run test"]
+dir = "integration_tests"
+alias = "tr"

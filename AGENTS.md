@@ -17,18 +17,16 @@ This is a Rust implementation of an OEIS (Online Encyclopedia of Integer Sequenc
 
 ## Development Commands
 
-The project uses Taskfile for task management. Key commands:
+The project uses mise for task management. Key commands:
 
-- **Setup**: `task setup` - Sets up mise and Rust dependencies
-- **Run development server**: `task rs:dev` - Runs with hot-reloading using watchexec
-- **Run normally**: `task rs:run` or `cargo run`
-- **Build**: `cargo build` or `task rs:build`
-- **Build release**: `cargo build --release` or `task rs:build:release`
-- **Run tests**: `cargo test -- --nocapture` or `task rs:test`
-- **Lint**: `cargo clippy --all-targets --all-features --no-deps` or `task rs:lint`
-- **Auto-fix and format**: `task rs:fix` (runs clippy fix and cargo fmt)
-- **Format code**: `cargo fmt` or `task rs:fmt`
-- **Check everything**: `task rs:check` - Runs fix, lint, and test (ALWAYS use this for comprehensive Rust checks)
+- **Setup**: `mise run setup` - Sets up mise and installs tools
+- **Run development server**: `mise run rs-dev` - Runs with hot-reloading using watchexec
+- **Build**: `cargo build` or `mise run rs-build`
+- **Build release**: `cargo build --release` or `mise run rs-build-release`
+- **Auto-fix and format**: `mise run rs-fix` (runs clippy fix and cargo fmt)
+- **Check Rust code**: `mise run rs-check` - Runs clippy, fmt check, and tests (ALWAYS use this for comprehensive Rust checks)
+- **Fix all**: `mise run fix` - Runs all fix tasks (Markdown, Rust, integration tests)
+- **Check all**: `mise run check` - Runs all check tasks (Markdown, GitHub Actions, Rust, integration tests)
 
 ### Running Single Tests
 
