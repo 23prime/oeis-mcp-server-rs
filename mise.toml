@@ -127,3 +127,12 @@ description = "Run integration tests"
 run = ["pnpm run test"]
 dir = "integration_tests"
 alias = "tr"
+
+# Release
+[tasks.tag]
+description = "Create release tag from Cargo.toml version"
+run = "./create-release-tag.sh"
+
+[tasks.tag-push]
+description = "Push release tags to remote"
+run = "git push --follow-tags"
