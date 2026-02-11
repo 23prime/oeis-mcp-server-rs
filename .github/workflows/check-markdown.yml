@@ -34,7 +34,7 @@ jobs:
       - name: Commit and Push
         uses: 23prime/simple-commit-and-push@v1
         with:
-          commit-message: "Auto fix by workflow"
+          commit-message: "style: Auto fix by workflow"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check
