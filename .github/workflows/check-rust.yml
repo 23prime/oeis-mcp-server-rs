@@ -40,20 +40,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      - name: Install Task
-        uses: arduino/setup-task@v2
-        with:
-          version: 3.x
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install mise
+        uses: jdx/mise-action@v3
 
       - name: Fix
-        run: task rs:fix
+        run: mise run rs-fix
 
       - name: Commit and Push
         uses: 23prime/simple-commit-and-push@v1
         with:
-          commit-message: "Auto fix code by `task rs:fix`"
+          commit-message: "style: Auto fix by workflow"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check
-        run: task rs:check
+        run: mise run rs-check

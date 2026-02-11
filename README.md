@@ -10,7 +10,7 @@
     docker run -p 8000:8000 --name oeis-mcp-server ghcr.io/23prime/oeis-mcp-server:latest
     ```
 
-2. Config your client
+1. Config your client
 
     e.g.) Claude Code
 
@@ -22,27 +22,27 @@
 
 ### Pre-requirements
 
-- [Taskfile](https://taskfile.dev)
 - [mise](https://mise.jdx.dev)
+- [rustup](https://rustup.rs)
 
 ### Run application
 
 1. Setup
 
     ```sh
-    task setup
+    mise run setup
     ```
 
 2. Run app
 
     ```sh
-    task rs:dev
+    mise run rs-dev
     ```
 
 3. Run integration tests at another terminal
 
     ```sh
-    task t:check
+    mise run test-check
     ```
 
 ### Use Docker
@@ -68,16 +68,22 @@
     version = "0.2.0"
     ```
 
+    (Alternative) You can update  with the command:
+
+    ```sh
+    cargo set-version 0.2.0
+    ```
+
 2. Create release tag
 
     ```sh
-    task tag
+    mise run tag
     ```
 
 3. Push release tag
 
     ```sh
-    task tag:push
+    mise run tag-push
     ```
 
 4. GitHub Actions will automatically build and release binaries
