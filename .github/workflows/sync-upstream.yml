@@ -21,5 +21,5 @@ jobs:
       - name: Sync upstream
         uses: 23prime/sync-upstream@main # TODO: change to `v1` when released
         with:
-          upstream-url: https://github.com/23prime/taskfile-mise-template.git
+          upstream-url: https://github.com/23prime/mise-template.git
           github-token: ${{ secrets.GITHUB_TOKEN }}

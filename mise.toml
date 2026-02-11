@@ -1,12 +1,10 @@
+# ================================================================
+# Tools
+# ================================================================
 [tools]
-# YAML
-uv = "latest" # for install yamllint
 
 # Markdown
 markdownlint-cli2 = "latest"
-
-# JSON
-biome = "latest"
 
 # GitHub Actions
 actionlint = "latest"
@@ -18,3 +16,46 @@ lefthook = "latest"
 
 # integration test
 pnpm = "latest"
+
+# ================================================================
+# Tasks
+# See: https://mise.jdx.dev/tasks/toml-tasks.html
+# ================================================================
+
+# Global
+[tasks.setup]
+description = "Setup tools"
+run = ["mise trust -yq", "mise install"]
+alias = "s"
+
+[tasks.fix]
+description = "Fix all issues"
+depends = ["md-fix"]
+alias = "f"
+
+[tasks.check]
+description = "Check for all issues"
+depends = ["md-check", "gh-check"]
+alias = "c"
+
+[tasks.fix-and-check]
+run = [{ task = "fix" }, { task = "check" }]
+description = "Fix all issues and check for issues"
+alias = "fc"
+
+# Markdown
+[tasks.md-fix]
+description = "Fix Markdown issues"
+run = "markdownlint-cli2 . --fix"
+alias = "mf"
+
+[tasks.md-check]
+description = "Check for Markdown issues"
+run = "markdownlint-cli2 ."
+alias = "mc"
+
+# GitHub Actions
+[tasks.gh-check]
+description = "Check GitHub Actions workflows"
+run = "actionlint .github/workflows/*.yml"
+alias = "ghc"

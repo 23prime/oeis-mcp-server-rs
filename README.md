@@ -10,7 +10,7 @@
     docker run -p 8000:8000 --name oeis-mcp-server ghcr.io/23prime/oeis-mcp-server:latest
     ```
 
-2. Config your client
+1. Config your client
 
     e.g.) Claude Code
 
