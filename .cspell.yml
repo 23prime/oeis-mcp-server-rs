@@ -7,7 +7,7 @@ enableGlobDot: true
 
 dictionaryDefinitions:
   - name: base-dict
-    path: './base-dict.txt'
+    path: './.cspell/dicts/base.txt'
     addWords: true
 
 dictionaries:
