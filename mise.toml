@@ -12,6 +12,7 @@ shellcheck = "latest"
 
 # Other tools
 lefthook = "latest"
+cspell = "latest"
 
 
 # ================================================================
@@ -32,7 +33,7 @@ alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check"]
+depends = ["md-check", "gh-check", "spell-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -56,3 +57,9 @@ alias = "mc"
 description = "Check GitHub Actions workflows"
 run = "actionlint .github/workflows/*.yml"
 alias = "ghc"
+
+# Spell Check
+[tasks.spell-check]
+description = "Check spelling"
+run = "cspell ."
+alias = "sc"

@@ -1,0 +1,23 @@
+name: Check spelling
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install mise and setup
+        uses: jdx/mise-action@v3
+        with:
+          install: true
+          install_args: "cspell"
+          cache: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check
+        run: mise spell-check
