@@ -1,0 +1,16 @@
+---
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+
+version: '0.2'
+
+dictionaryDefinitions:
+  - name: base-dict
+    path: './base-dict.txt'
+    addWords: true
+
+dictionaries:
+  - base-dict
+
+ignorePaths:
+  - 'node_modules'
+  - '/base-dict.txt'
