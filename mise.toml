@@ -61,5 +61,5 @@ alias = "ghc"
 # Spell Check
 [tasks.spell-check]
 description = "Check spelling"
-run = "cspell ."
+run = "cspell . --verbose"
 alias = "sc"
