@@ -17,4 +17,3 @@ ignorePaths:
   - '.git'
   - '.vscode'
   - 'node_modules'
-  - '/base-dict.txt'
