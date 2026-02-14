@@ -10,8 +10,13 @@ dictionaryDefinitions:
     path: './.cspell/dicts/base.txt'
     addWords: true
 
+  - name: project-dict
+    path: './.cspell/dicts/project.txt'
+    addWords: true
+
 dictionaries:
   - base-dict
+  - project-dict
 
 ignorePaths:
   - '.git'
