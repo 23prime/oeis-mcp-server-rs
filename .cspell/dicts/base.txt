@@ -1,3 +1,4 @@
+okkey
 cooldown
 lefthook
 shellcheck
