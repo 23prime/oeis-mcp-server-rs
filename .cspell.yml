@@ -14,7 +14,6 @@ dictionaryDefinitions:
     path: './.cspell/dicts/project.txt'
     addWords: true
 
-
 dictionaries:
   - base-dict
   - project-dict
