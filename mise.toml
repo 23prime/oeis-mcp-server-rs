@@ -13,6 +13,7 @@ shellcheck = "latest"
 # Other tools
 watchexec = "latest"
 lefthook = "latest"
+cspell = "latest"
 
 # integration test
 pnpm = "latest"
@@ -35,7 +36,7 @@ alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check", "rs-check", "test-check"]
+depends = ["md-check", "gh-check", "spell-check", "rs-check", "test-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -59,6 +60,12 @@ alias = "mc"
 description = "Check GitHub Actions workflows"
 run = "actionlint .github/workflows/*.yml"
 alias = "ghc"
+
+# Spell Check
+[tasks.spell-check]
+description = "Check spelling"
+run = "cspell . --gitignore --verbose"
+alias = "sc"
 
 # Rust
 [tasks.rs-install]

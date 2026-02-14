@@ -1,0 +1,19 @@
+---
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+
+version: '0.2'
+
+enableGlobDot: true
+
+dictionaryDefinitions:
+  - name: base-dict
+    path: './.cspell/dicts/base.txt'
+    addWords: true
+
+dictionaries:
+  - base-dict
+
+ignorePaths:
+  - '.git'
+  - '.vscode'
+  - 'node_modules'
