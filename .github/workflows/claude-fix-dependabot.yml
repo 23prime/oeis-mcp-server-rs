@@ -26,10 +26,17 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { check_suite } = context.payload;
+            const check_suite = context.payload?.check_suite;
+
+            if (!check_suite || !Array.isArray(check_suite.pull_requests)) {
+              core.warning('No valid pull_requests array found on check_suite payload; skipping workflow.');
+              core.setOutput('skip', 'true');
+              return;
+            }
+
             const prs = check_suite.pull_requests;
 
-            if (!prs || prs.length === 0) {
+            if (prs.length === 0) {
               core.setOutput('skip', 'true');
               return;
             }
