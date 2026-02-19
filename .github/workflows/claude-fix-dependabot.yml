@@ -6,7 +6,7 @@ on:
 
 concurrency:
   group: claude-fix-dependabot-${{ github.event.check_suite.head_sha }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   claude-fix:
