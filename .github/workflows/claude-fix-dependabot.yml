@@ -71,7 +71,7 @@ jobs:
 
       - name: Checkout PR branch
         if: steps.find-pr.outputs.skip == 'false'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ steps.find-pr.outputs.head_ref }}
           fetch-depth: 1
