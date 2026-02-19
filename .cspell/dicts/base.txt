@@ -2,3 +2,4 @@ okkey
 cooldown
 lefthook
 shellcheck
+coderabbit
