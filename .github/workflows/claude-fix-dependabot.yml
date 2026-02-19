@@ -1,0 +1,131 @@
+name: Claude Fix Dependabot PR
+
+on:
+  check_suite:
+    types: [completed]
+
+concurrency:
+  group: claude-fix-dependabot-${{ github.event.check_suite.head_sha }}
+  cancel-in-progress: false
+
+jobs:
+  claude-fix:
+    if: github.event.check_suite.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      actions: read
+      statuses: read
+      id-token: write
+
+    steps:
+      - name: Find associated Dependabot PR
+        id: find-pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const check_suite = context.payload?.check_suite;
+
+            if (!check_suite || !Array.isArray(check_suite.pull_requests)) {
+              core.warning('No valid pull_requests array found on check_suite payload; skipping workflow.');
+              core.setOutput('skip', 'true');
+              return;
+            }
+
+            const prs = check_suite.pull_requests;
+
+            if (prs.length === 0) {
+              core.setOutput('skip', 'true');
+              return;
+            }
+
+            const pr = prs[0];
+            const { data: prData } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+
+            if (prData.user.login !== 'dependabot[bot]') {
+              core.setOutput('skip', 'true');
+              return;
+            }
+
+            // Avoid infinite loops: skip if the latest commit is already from Claude
+            const { data: headCommit } = await github.rest.repos.getCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: prData.head.sha,
+            });
+
+            const lastAuthorName = headCommit?.commit?.author?.name || '';
+            const lastAuthorEmail = headCommit?.commit?.author?.email || '';
+            if (
+              lastAuthorName.toLowerCase().includes('claude') ||
+              lastAuthorEmail.toLowerCase().includes('claude')
+            ) {
+              console.log('Last commit is from Claude — skipping to avoid infinite loop');
+              core.setOutput('skip', 'true');
+              return;
+            }
+
+            core.setOutput('skip', 'false');
+            core.setOutput('pr_number', String(pr.number));
+            core.setOutput('head_ref', prData.head.ref);
+
+      - name: Checkout PR branch
+        if: steps.find-pr.outputs.skip == 'false'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.find-pr.outputs.head_ref }}
+          fetch-depth: 1
+
+      - name: Install Rust
+        if: steps.find-pr.outputs.skip == 'false'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo registry
+        if: steps.find-pr.outputs.skip == 'false'
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Install mise
+        if: steps.find-pr.outputs.skip == 'false'
+        uses: jdx/mise-action@v3
+
+      - name: Run Claude to fix CI failures
+        if: steps.find-pr.outputs.skip == 'false'
+        uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          additional_permissions: |
+            actions: read
+          prompt: |
+            Dependabot PR #${{ steps.find-pr.outputs.pr_number }} has failing CI checks after a dependency update.
+
+            Please investigate and fix the CI failures by following these steps:
+            1. Review the failing check logs with `gh pr checks ${{ steps.find-pr.outputs.pr_number }} --repo ${{ github.repository }}`
+            2. Run `mise run rs-fix` to auto-fix formatting and clippy issues
+            3. Run `mise run rs-check` to identify remaining errors (runs clippy, fmt check, and tests)
+            4. Fix any compilation errors, test failures, or linting issues that could not be auto-fixed
+            5. Verify all checks pass with `mise run rs-check`
+            6. Commit the fixes with a message like "fix: resolve CI failures after dependency update"
+            7. Push the changes to branch `${{ steps.find-pr.outputs.head_ref }}` (e.g., with `git push origin HEAD:${{ steps.find-pr.outputs.head_ref }}`)
+
+            Important rules:
+            - Only fix issues introduced by the dependency update; do not touch unrelated code
+            - Keep changes minimal and focused solely on making CI pass
+            - Do not upgrade or downgrade any dependencies other than what Dependabot already changed

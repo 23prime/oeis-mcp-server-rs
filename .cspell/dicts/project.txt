@@ -16,3 +16,4 @@ buildx
 dtolnay
 softprops
 modelcontextprotocol
+anthropics
