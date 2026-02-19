@@ -123,7 +123,7 @@ jobs:
             4. Fix any compilation errors, test failures, or linting issues that could not be auto-fixed
             5. Verify all checks pass with `mise run rs-check`
             6. Commit the fixes with a message like "fix: resolve CI failures after dependency update"
-            7. Push the changes to the PR branch
+            7. Push the changes to branch `${{ steps.find-pr.outputs.head_ref }}` (e.g., with `git push origin HEAD:${{ steps.find-pr.outputs.head_ref }}`)
 
             Important rules:
             - Only fix issues introduced by the dependency update; do not touch unrelated code
