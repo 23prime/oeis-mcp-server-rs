@@ -46,17 +46,15 @@ jobs:
               return;
             }
 
-            // Avoid infinite loops: skip if the last commit is already from Claude
-            const { data: commits } = await github.rest.pulls.listCommits({
+            // Avoid infinite loops: skip if the latest commit is already from Claude
+            const { data: headCommit } = await github.rest.repos.getCommit({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: pr.number,
-              per_page: 1,
+              ref: prData.head.sha,
             });
 
-            const lastCommit = commits[commits.length - 1];
-            const lastAuthorName = lastCommit?.commit?.author?.name || '';
-            const lastAuthorEmail = lastCommit?.commit?.author?.email || '';
+            const lastAuthorName = headCommit?.commit?.author?.name || '';
+            const lastAuthorEmail = headCommit?.commit?.author?.email || '';
             if (
               lastAuthorName.toLowerCase().includes('claude') ||
               lastAuthorEmail.toLowerCase().includes('claude')
