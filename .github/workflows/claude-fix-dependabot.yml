@@ -123,10 +123,12 @@ jobs:
             3. Run `mise run rs-check` to identify remaining errors (runs clippy, fmt check, and tests)
             4. Fix any compilation errors, test failures, or linting issues that could not be auto-fixed
             5. Verify all checks pass with `mise run rs-check`
-            6. Commit the fixes with a message like "fix: resolve CI failures after dependency update"
-            7. Push the changes to branch `${{ steps.find-pr.outputs.head_ref }}` (e.g., with `git push origin HEAD:${{ steps.find-pr.outputs.head_ref }}`)
+            6. Check if there are any actual file changes with `git diff --stat`. If there are no changes, stop here — do not create an empty commit.
+            7. If there are changes, commit them with a message like "fix: resolve CI failures after dependency update"
+            8. Push the changes to branch `${{ steps.find-pr.outputs.head_ref }}` (e.g., with `git push origin HEAD:${{ steps.find-pr.outputs.head_ref }}`)
 
             Important rules:
             - Only fix issues introduced by the dependency update; do not touch unrelated code
             - Keep changes minimal and focused solely on making CI pass
             - Do not upgrade or downgrade any dependencies other than what Dependabot already changed
+            - Use `mise run` commands instead of invoking `cargo` directly (e.g., `mise run rs-check` not `cargo check`)
