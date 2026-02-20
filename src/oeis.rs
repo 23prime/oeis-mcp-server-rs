@@ -209,6 +209,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
                 name: env!("CARGO_PKG_NAME").to_string(),
                 title: Some("OEIS MCP server".to_string()),
                 version: env!("CARGO_PKG_VERSION").to_string(),
+                description: Some(env!("CARGO_PKG_DESCRIPTION").to_string()),
                 icons: None,
                 website_url: Some("https://github.com/23prime/oeis-mcp-server-rs".to_string()),
             },

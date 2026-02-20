@@ -23,6 +23,7 @@ test("server version", async () => {
   expect(version.name).toBe("oeis-mcp-server");
   expect(version.title).toBe("OEIS MCP server");
   expect(version.version).toBe("0.1.0");
+  expect(version.description).toBe("MCP server for OEIS sequences");
   expect(version.websiteUrl).toBe("https://github.com/23prime/oeis-mcp-server-rs");
   expect(version.icons).toBeUndefined();
 });
@@ -100,7 +101,7 @@ test("Tool(find_by_id)", async () => {
   expect(response.structuredContent).toBeDefined();
 });
 
-test.only("Tool(search_by_subsequence)", async () => {
+test("Tool(search_by_subsequence)", async () => {
   const response = await client.callTool({
     name: "search_by_subsequence",
     arguments: { subsequence: [1, 1, 2, 3, 5] },
