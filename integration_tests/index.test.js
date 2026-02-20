@@ -100,7 +100,7 @@ test("Tool(find_by_id)", async () => {
   expect(response.structuredContent).toBeDefined();
 });
 
-test.only("Tool(search_by_subsequence)", async () => {
+test("Tool(search_by_subsequence)", async () => {
   const response = await client.callTool({
     name: "search_by_subsequence",
     arguments: { subsequence: [1, 1, 2, 3, 5] },
