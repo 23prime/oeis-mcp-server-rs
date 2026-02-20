@@ -23,6 +23,7 @@ test("server version", async () => {
   expect(version.name).toBe("oeis-mcp-server");
   expect(version.title).toBe("OEIS MCP server");
   expect(version.version).toBe("0.1.0");
+  expect(version.description).toBe("MCP server for OEIS sequences");
   expect(version.websiteUrl).toBe("https://github.com/23prime/oeis-mcp-server-rs");
   expect(version.icons).toBeUndefined();
 });
