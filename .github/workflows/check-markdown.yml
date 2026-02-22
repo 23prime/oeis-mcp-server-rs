@@ -5,10 +5,12 @@ on:
     paths:
       - "**/*.md"
       - ".github/workflows/check-markdown.yml"
+      - ".markdownlint-cli2.jsonc"
   pull_request:
     paths:
       - "**/*.md"
       - ".github/workflows/check-markdown.yml"
+      - ".markdownlint-cli2.jsonc"
 
 permissions:
   contents: write
