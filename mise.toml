@@ -26,7 +26,7 @@ pnpm = "latest"
 # Global
 [tasks.setup]
 description = "Setup tools"
-run = ["mise trust -yq", "mise install"]
+run = ["mise trust -yq", "mise install", "lefthook install"]
 alias = "s"
 
 [tasks.fix]
