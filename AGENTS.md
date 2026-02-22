@@ -9,7 +9,7 @@ This file provides guidance to AI coding agents when working with code in this r
 ### Shell Rules
 
 - Always use `rm -f` (never bare `rm`)
-- Run `git` commands in the current directory (do not use the `-C` option)
+- Before running a series of `git` commands, confirm you are in the project root; if not, `cd` there first. Then run all subsequent `git` commands from that directory without the `-C` option.
 
 ## Project Overview
 
