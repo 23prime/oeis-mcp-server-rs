@@ -27,6 +27,11 @@
     // MD050/strong-style
     "MD050": {
       "style": "asterisk"
+    },
+
+    // MD060/table-column-style
+    "MD060": {
+      "style": "compact"
     }
   },
 
