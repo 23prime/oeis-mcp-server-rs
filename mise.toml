@@ -54,12 +54,12 @@ alias = "fc"
 # Markdown
 [tasks.md-fix]
 description = "Fix Markdown issues"
-run = "markdownlint-cli2 . --fix"
+run = "markdownlint-cli2 '**/*.md' --fix"
 alias = "mf"
 
 [tasks.md-check]
 description = "Check for Markdown issues"
-run = "markdownlint-cli2 ."
+run = "markdownlint-cli2 '**/*.md'"
 alias = "mc"
 
 # GitHub Actions
