@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@modelcontextprotocol/inspector':
-        specifier: ^0.21.0
-        version: 0.21.0(@preact/signals-core@1.13.0)(@types/node@25.2.3)(@types/react@18.3.28)(typescript@5.9.3)
+        specifier: ^0.21.1
+        version: 0.21.1(@preact/signals-core@1.13.0)(@types/node@25.2.3)(@types/react@18.3.28)(typescript@5.9.3)
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)
@@ -258,8 +258,8 @@ packages:
     resolution: {integrity: sha512-dNPbz37aHMkuwwr/AZCnmoigDFSCbilMHkDQ2SVt0yORCgeoIX2li2La6XbmZIKAp14sCpJCKKKpmhwJ9uRiLA==}
     hasBin: true
 
-  '@modelcontextprotocol/inspector@0.21.0':
-    resolution: {integrity: sha512-Cu7AKh8aHuBhFQVEFWRvZCWCf0qc2X6KDaiSW/wqLjHlNB9kZP35cwY3I+q1xvow41OyL7zkr+bTV7w3YrFcXg==}
+  '@modelcontextprotocol/inspector@0.21.1':
+    resolution: {integrity: sha512-9d2zJ97Bg9hHj4Qz1b06aCmIu4/Ts84H8RqqJteORJUyxaK8DGfXQ3JoS0PsU8gHoHWabFAs4HAiy/ePU8Oa2A==}
     engines: {node: '>=22.7.5'}
     hasBin: true
 
@@ -2243,7 +2243,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@modelcontextprotocol/inspector@0.21.0(@preact/signals-core@1.13.0)(@types/node@25.2.3)(@types/react@18.3.28)(typescript@5.9.3)':
+  '@modelcontextprotocol/inspector@0.21.1(@preact/signals-core@1.13.0)(@types/node@25.2.3)(@types/react@18.3.28)(typescript@5.9.3)':
     dependencies:
       '@modelcontextprotocol/inspector-cli': 0.21.1(zod@3.25.76)
       '@modelcontextprotocol/inspector-client': 0.21.1(@preact/signals-core@1.13.0)(@types/react@18.3.28)
