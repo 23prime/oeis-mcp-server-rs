@@ -103,7 +103,7 @@ jobs:
 
       - name: Install mise
         if: steps.find-pr.outputs.skip == 'false'
-        uses: jdx/mise-action@v3
+        uses: jdx/mise-action@v4
 
       - name: Run Claude to fix CI failures
         if: steps.find-pr.outputs.skip == 'false'
