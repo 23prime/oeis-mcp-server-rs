@@ -198,23 +198,19 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
 #[prompt_handler]
 impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
     fn get_info(&self) -> ServerInfo {
-        ServerInfo {
-            protocol_version: ProtocolVersion::V_2025_06_18,
-            capabilities: ServerCapabilities::builder()
-                .enable_prompts()
-                .enable_resources()
-                .enable_tools()
-                .build(),
-            server_info: Implementation {
-                name: env!("CARGO_PKG_NAME").to_string(),
-                title: Some("OEIS MCP server".to_string()),
-                version: env!("CARGO_PKG_VERSION").to_string(),
-                description: Some(env!("CARGO_PKG_DESCRIPTION").to_string()),
-                icons: None,
-                website_url: Some("https://github.com/23prime/oeis-mcp-server-rs".to_string()),
-            },
-            instructions: Some("This server provides access to the OEIS (Online Encyclopedia of Integer Sequences) database. Tools: get_url (returns the OEIS homepage URL), find_by_id (search for a sequence by ID like 'A000045'), search_by_subsequence (search for sequences matching a given subsequence like [1,1,2,3,5]). Prompts: sequence_analysis (provides comprehensive analysis of an OEIS sequence). Resources: oeis://sequence/{id} (direct access to sequence data as JSON). Use this server to look up integer sequences, analyze their mathematical properties, and explore relationships between sequences.".to_string()),
-        }
+        let capabilities = ServerCapabilities::builder()
+            .enable_prompts()
+            .enable_resources()
+            .enable_tools()
+            .build();
+        let server_info = Implementation::new(env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"))
+            .with_title("OEIS MCP server")
+            .with_description(env!("CARGO_PKG_DESCRIPTION"))
+            .with_website_url("https://github.com/23prime/oeis-mcp-server-rs");
+        ServerInfo::new(capabilities)
+            .with_protocol_version(ProtocolVersion::V_2025_06_18)
+            .with_server_info(server_info)
+            .with_instructions("This server provides access to the OEIS (Online Encyclopedia of Integer Sequences) database. Tools: get_url (returns the OEIS homepage URL), find_by_id (search for a sequence by ID like 'A000045'), search_by_subsequence (search for sequences matching a given subsequence like [1,1,2,3,5]). Prompts: sequence_analysis (provides comprehensive analysis of an OEIS sequence). Resources: oeis://sequence/{id} (direct access to sequence data as JSON). Use this server to look up integer sequences, analyze their mathematical properties, and explore relationships between sequences.")
     }
 
     async fn list_resource_templates(
@@ -256,9 +252,10 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
             let json_content = serde_json::to_string_pretty(&sequence)
                 .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))?;
 
-            Ok(ReadResourceResult {
-                contents: vec![ResourceContents::text(&json_content, uri)],
-            })
+            Ok(ReadResourceResult::new(vec![ResourceContents::text(
+                &json_content,
+                uri,
+            )]))
         } else {
             Err(McpError::new(
                 ErrorCode::INVALID_PARAMS,
