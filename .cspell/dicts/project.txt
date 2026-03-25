@@ -13,7 +13,7 @@ nonn
 deque
 streamable
 buildx
-dtolnay
 softprops
 modelcontextprotocol
 anthropics
+rustflags
