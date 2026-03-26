@@ -21,6 +21,7 @@ shellcheck = "latest"
 watchexec = "latest"
 lefthook = "latest"
 cspell = "latest"
+"github:zizmorcore/zizmor" = "latest"
 
 # integration test
 pnpm = "latest"
@@ -38,7 +39,7 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix", "rs-fix", "test-fix"]
+depends = ["md-fix", "gh-fix", "rs-fix", "test-fix"]
 alias = "f"
 
 [tasks.check]
@@ -63,9 +64,14 @@ run = "markdownlint-cli2 '**/*.md'"
 alias = "mc"
 
 # GitHub Actions
+[tasks.gh-fix]
+description = "Fix GitHub Actions workflows"
+run = "zizmor --fix=all .github/workflows/*.yml"
+alias = "ghf"
+
 [tasks.gh-check]
 description = "Check GitHub Actions workflows"
-run = "actionlint .github/workflows/*.yml"
+run = ["actionlint .github/workflows/*.yml", "zizmor .github/workflows/*.yml"]
 alias = "ghc"
 
 # Spell Check
