@@ -4,6 +4,21 @@ A Template for development with [mise](https://mise.jdx.dev).
 
 ## Getting started
 
+### Using setup script
+
+1. Create new remote repository on GitHub.
+
+2. Run the setup script.
+
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/23prime/mise-template/main/setup.sh | bash -s -- <new-remote-url> [new-repo-name]
+    ```
+
+    - `<new-remote-url>` — remote URL of the pre-created repository
+    - `[new-repo-name]` — optional; defaults to the repository name derived from the URL
+
+### Manual steps
+
 1. Create new remote repository on GitHub.
 
 2. Clone this repository.
