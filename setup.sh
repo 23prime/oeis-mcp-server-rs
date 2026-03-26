@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TEMPLATE_REPO="git@github.com:23prime/mise-template.git"
+TEMPLATE_REPO="${TEMPLATE_REPO:-https://github.com/23prime/mise-template.git}"
 
 usage() {
   echo "Usage: setup.sh <remote-url> [repo-name]"
