@@ -45,14 +45,22 @@ fi
 # ----------------------------------------------------------------
 # Setup
 # ----------------------------------------------------------------
-TMPDIR="$(mktemp -d)"
-trap 'rm -rf "$TMPDIR"' EXIT
+SETUP_TMPDIR="$(mktemp -d "${TMPDIR:-/tmp}/setup.XXXXXXXXXX")"
+if [[ -z "${SETUP_TMPDIR:-}" || ! -d "$SETUP_TMPDIR" ]]; then
+  echo "Error: Failed to create temporary directory." >&2
+  exit 1
+fi
+trap 'rm -rf "$SETUP_TMPDIR"' EXIT
 
 echo "Cloning template repository..."
-git clone "$TEMPLATE_REPO" "$TMPDIR/mise-template"
+git clone "$TEMPLATE_REPO" "$SETUP_TMPDIR/mise-template"
 
 echo "Copying to '$REPO_NAME'..."
-cp -ar "$TMPDIR/mise-template" "$REPO_NAME"
+if [[ -e "$REPO_NAME" ]]; then
+  echo "Error: Target path '$REPO_NAME' already exists. Please remove it or choose a different repo name." >&2
+  exit 1
+fi
+cp -ar "$SETUP_TMPDIR/mise-template" "$REPO_NAME"
 
 cd "$REPO_NAME"
 
