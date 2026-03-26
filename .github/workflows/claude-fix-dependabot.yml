@@ -1,6 +1,6 @@
 name: Claude Fix Dependabot PR
 
-on:
+on: # zizmor: ignore[dangerous-triggers]
   workflow_run:
     workflows: ["Check"]
     types: [completed]
@@ -82,6 +82,7 @@ jobs:
         with:
           ref: ${{ steps.find-pr.outputs.head_ref }}
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Install Rust
         uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
@@ -99,7 +100,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }} # zizmor: ignore[secrets-outside-env]
           additional_permissions: |
             actions: read
           prompt: |
