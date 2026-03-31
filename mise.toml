@@ -71,7 +71,10 @@ alias = "ghf"
 
 [tasks.gh-check]
 description = "Check GitHub Actions workflows"
-run = ["actionlint .github/workflows/*.yml", "zizmor . --persona=pedantic --min-severity=medium"]
+run = [
+  "actionlint .github/workflows/*.yml",
+  "zizmor . --persona=pedantic --min-severity=medium",
+]
 alias = "ghc"
 
 # Spell Check
@@ -126,7 +129,7 @@ run = "cargo clean"
 # Integration tests
 [tasks.test-install]
 description = "Install integration test dependencies"
-run = ["pnpm install"]
+run = ["pnpm install --frozen-lockfile"]
 dir = "integration_tests"
 alias = "ti"
 
