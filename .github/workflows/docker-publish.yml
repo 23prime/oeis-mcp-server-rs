@@ -15,6 +15,8 @@ on:
       - ".github/workflows/docker-publish.yml"
   workflow_dispatch:
 
+permissions: {}
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: 23prime/oeis-mcp-server

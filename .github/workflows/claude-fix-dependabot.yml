@@ -5,6 +5,8 @@ on: # zizmor: ignore[dangerous-triggers]
     workflows: ["Check"]
     types: [completed]
 
+permissions: {}
+
 concurrency:
   group: claude-fix-dependabot-${{ github.event.workflow_run.head_sha }}
   cancel-in-progress: false
