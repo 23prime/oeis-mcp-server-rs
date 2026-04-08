@@ -118,6 +118,14 @@ url = "https://github.com/evilmartians/lefthook/releases/download/v2.1.5/lefthoo
 version = "0.22.0"
 backend = "npm:markdownlint-cli2"
 
+[[tools.pnpm]]
+version = "10.28.1"
+backend = "aqua:pnpm/pnpm"
+
 [[tools.shellcheck]]
 version = "0.11.0"
 backend = "aqua:koalaman/shellcheck"
+
+[[tools.watchexec]]
+version = "1.25.1"
+backend = "aqua:watchexec/watchexec"
