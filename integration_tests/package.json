@@ -8,6 +8,6 @@
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@modelcontextprotocol/inspector": "^0.21.1",
     "prettier": "^3.8.1",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.4"
   }
 }
