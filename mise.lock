@@ -136,6 +136,10 @@ backend = "npm:markdownlint-cli2"
 version = "10.28.1"
 backend = "aqua:pnpm/pnpm"
 
+[tools.pnpm."platforms.linux-x64"]
+checksum = "sha256:e1a90745bbab7aad1de6886e5c6da978463fe8382953d1406e0e30661d0613a1"
+url = "https://github.com/pnpm/pnpm/releases/download/v10.28.1/pnpm-linux-x64"
+
 [[tools.shellcheck]]
 version = "0.11.0"
 backend = "aqua:koalaman/shellcheck"
