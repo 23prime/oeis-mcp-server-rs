@@ -20,7 +20,9 @@ use crate::oeis_client::{OEISClient, OEISSequence};
 #[allow(clippy::upper_case_acronyms)]
 pub struct OEIS<C: OEISClient> {
     client: C,
+    #[allow(dead_code)]
     tool_router: ToolRouter<OEIS<C>>,
+    #[allow(dead_code)]
     prompt_router: PromptRouter<OEIS<C>>,
 }
 
