@@ -11,6 +11,9 @@ minimum_release_age = "3d"
 # ================================================================
 [tools]
 
+# Node.js
+node = "24"
+
 # Markdown
 markdownlint-cli2 = "0.22"
 
