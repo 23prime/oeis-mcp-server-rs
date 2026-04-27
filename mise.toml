@@ -88,10 +88,10 @@ alias = "sc"
 # Secrets
 [tasks.gitleaks-check]
 description = "Check for leaked secrets"
-run = "gitleaks git --no-banner"
+run = "gitleaks git --redact --no-banner"
 alias = "glc"
 
 [tasks.gitleaks-protect]
 description = "Check staged files for leaked secrets"
-run = "gitleaks git --pre-commit --no-banner"
+run = "gitleaks git --pre-commit --redact --no-banner"
 alias = "glp"
