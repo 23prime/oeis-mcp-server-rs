@@ -29,7 +29,7 @@ gitleaks = "8"
 watchexec = "2"
 
 # integration test
-pnpm = "10"
+pnpm = "11"
 
 # ================================================================
 # Tasks
