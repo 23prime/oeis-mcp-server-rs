@@ -8,7 +8,7 @@
       "Bash(git rev-parse HEAD)",
       "Bash(gh pr checks:*)",
       "Bash(gh run:*)",
-      "Bash(mise run:*)"
+      "Bash(mise run *)"
     ]
   },
   "hooks": {
