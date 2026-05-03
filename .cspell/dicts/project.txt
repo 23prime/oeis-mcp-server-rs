@@ -17,3 +17,4 @@ softprops
 modelcontextprotocol
 anthropics
 rustflags
+esbuild
