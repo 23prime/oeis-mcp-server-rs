@@ -98,7 +98,7 @@ jobs:
 
       - name: Run Claude to fix CI failures
         if: steps.find-pr.outputs.skip == 'false'
-        uses: anthropics/claude-code-action@f4fb5c6cdccc1ee7af63692f5d08d56efaa64cc8 # v1.0.121
+        uses: anthropics/claude-code-action@51ea8ea73a139f2a74ff649e3092c25a904aed7e # v1.0.123
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
