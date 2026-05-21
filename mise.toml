@@ -25,10 +25,12 @@ zizmor = "1"
 # AI
 "github:microsoft/apm" = "0.13"
 
-# Other tools
+# Git
 lefthook = "2"
-cspell = "10"
 gitleaks = "8"
+
+# Spell Check
+cspell = "10"
 
 
 # ================================================================
