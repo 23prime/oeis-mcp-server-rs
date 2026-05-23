@@ -25,14 +25,16 @@ zizmor = "1"
 # AI
 "github:microsoft/apm" = "0.14"
 
-# Other tools
+# Git
 lefthook = "2"
-cspell = "10"
 gitleaks = "8"
 watchexec = "2"
 
 # integration test
 pnpm = "11"
+
+# Spell Check
+cspell = "10"
 
 # ================================================================
 # Tasks
