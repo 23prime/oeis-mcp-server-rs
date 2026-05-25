@@ -43,7 +43,6 @@ provenance = "github-attestations"
 version = "10.0.0"
 backend = "npm:cspell"
 
-
 [[tools.gitleaks]]
 version = "8.30.1"
 backend = "aqua:gitleaks/gitleaks"
