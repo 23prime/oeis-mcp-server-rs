@@ -8,7 +8,7 @@ ARG PLATFORM=x86_64-unknown-linux-musl
 #
 # Build stage
 #
-FROM rust:1.95-slim AS builder
+FROM rust:1.96-slim AS builder
 
 ARG PLATFORM
 
