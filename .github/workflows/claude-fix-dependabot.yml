@@ -16,12 +16,12 @@ jobs:
     if: github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
-      issues: write
-      actions: read
-      statuses: read
-      id-token: write
+      contents: write # push fix commits to the PR branch
+      pull-requests: write # read and update the Dependabot PR
+      issues: write # comment on the issue/PR
+      actions: read # read workflow run logs and check results
+      statuses: read # read commit status checks
+      id-token: write # OIDC token for Claude authentication
 
     steps:
       - name: Find associated Dependabot PR
