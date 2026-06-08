@@ -15,6 +15,10 @@ on:
       - ".github/workflows/docker-publish.yml"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions: {}
 
 env:
@@ -26,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      packages: write # push the container image
 
     steps:
       - name: Checkout

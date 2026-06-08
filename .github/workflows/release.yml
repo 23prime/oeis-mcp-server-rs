@@ -6,6 +6,10 @@ on:
       - "v*.*.*"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
 
@@ -71,22 +75,31 @@ jobs:
 
       - name: Build binary (native)
         if: ${{ !matrix.cross }}
-        run: cargo build --release --target=${{ matrix.target }}
+        env:
+          TARGET: ${{ matrix.target }}
+        run: cargo build --release --target="$TARGET"
 
       - name: Build binary (cross)
         if: ${{ matrix.cross }}
-        run: cross build --release --target=${{ matrix.target }}
+        env:
+          TARGET: ${{ matrix.target }}
+        run: cross build --release --target="$TARGET"
 
       - name: Prepare asset
+        env:
+          TARGET: ${{ matrix.target }}
+          ASSET_NAME: ${{ matrix.asset_name }}
         run: |
           mkdir -p dist
-          cp target/${{ matrix.target }}/release/${{ env.APP_NAME }} dist/${{ matrix.asset_name }}
-          chmod +x dist/${{ matrix.asset_name }}
+          cp "target/$TARGET/release/$APP_NAME" "dist/$ASSET_NAME"
+          chmod +x "dist/$ASSET_NAME"
 
       - name: Create tarball
+        env:
+          ASSET_NAME: ${{ matrix.asset_name }}
         run: |
           cd dist
-          tar czf ${{ matrix.asset_name }}.tar.gz ${{ matrix.asset_name }}
+          tar czf "$ASSET_NAME.tar.gz" "$ASSET_NAME"
 
       - name: Upload artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -100,7 +113,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # create the GitHub release
 
     steps:
       - name: Checkout
