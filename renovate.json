@@ -8,5 +8,5 @@
   "automergeType": "pr",
   "semanticCommits": "enabled",
   "semanticCommitType": "deps",
-  "semanticCommitScope": "deps"
+  "semanticCommitScope": null
 }
