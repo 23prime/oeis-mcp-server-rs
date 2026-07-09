@@ -1,5 +1,12 @@
 name: Check mise lock
 
+# Note:
+# Renovate's mise manager can update mise.lock itself, but doing so runs `mise lock`,
+# which Renovate treats as an unsafe execution requiring `allowedUnsafeExecutions`
+# in the bot/admin config. That's a self-hosted-only setting, unavailable to the
+# Mend-hosted Renovate GitHub App this repo uses, so Renovate PRs only bump mise.toml
+# and leave mise.lock stale. This workflow re-locks it whenever that drift appears.
+
 on:
   push:
     branches:
