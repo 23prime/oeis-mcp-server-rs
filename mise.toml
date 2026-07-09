@@ -44,12 +44,12 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix", "gh-fix", "lock-fix"]
+depends = ["md-fix", "gh-fix"]
 alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check", "spell-check", "secret-check-all", "lock-check"]
+depends = ["md-check", "gh-check", "spell-check", "secret-check-all"]
 alias = "c"
 
 [tasks.fix-and-check]
