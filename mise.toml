@@ -44,12 +44,12 @@ alias = "s"
 
 [tasks.fix]
 description = "Fix all issues"
-depends = ["md-fix", "gh-fix"]
+depends = ["md-fix", "gh-fix", "lock-fix"]
 alias = "f"
 
 [tasks.check]
 description = "Check for all issues"
-depends = ["md-check", "gh-check", "spell-check", "secret-check-all"]
+depends = ["md-check", "gh-check", "spell-check", "secret-check-all", "lock-check"]
 alias = "c"
 
 [tasks.fix-and-check]
@@ -98,3 +98,14 @@ alias = "scc"
 description = "Check for leaked secrets"
 run = "betterleaks git --redact --no-banner"
 alias = "sca"
+
+# mise lock
+[tasks.lock-fix]
+description = "Update mise.lock"
+run = "mise lock"
+alias = "lf"
+
+[tasks.lock-check]
+description = "Check mise.lock is up to date"
+run = ["mise lock", "git diff --exit-code -- mise.lock"]
+alias = "lc"
