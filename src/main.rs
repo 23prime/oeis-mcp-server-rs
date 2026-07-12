@@ -30,7 +30,7 @@ async fn main() -> anyhow::Result<()> {
     let server = axum::serve(tcp_listener, router)
         .with_graceful_shutdown(async { tokio::signal::ctrl_c().await.unwrap() });
 
-    println!("🚀 OEIS MCP server is ready at {}", &bind_address);
+    println!("🚀 OEIS MCP server is ready at {}", bind_address);
 
     let _ = server.await;
     Ok(())
