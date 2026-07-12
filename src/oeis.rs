@@ -95,7 +95,7 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
     #[tool(description = "Get a URL of OEIS entry.")]
     async fn get_url(&self, _: Parameters<EmptyRequest>) -> Result<CallToolResult, McpError> {
         let url = "https://oeis.org";
-        Ok(CallToolResult::success(vec![Content::text(url)]))
+        Ok(CallToolResult::success(vec![ContentBlock::text(url)]))
     }
 
     #[tool(description = "Find a sequence by its ID.")]
@@ -145,7 +145,7 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
 
     fn build_user_message(&self, sequence_id: &str) -> PromptMessage {
         PromptMessage::new_text(
-            PromptMessageRole::User,
+            Role::User,
             format!(
                 "Please provide a comprehensive analysis of OEIS sequence {}. \
                 Include:\n\
@@ -180,7 +180,7 @@ impl<C: OEISClient + Clone + 'static> OEIS<C> {
             xref_section,
         );
 
-        PromptMessage::new_text(PromptMessageRole::Assistant, analysis_context)
+        PromptMessage::new_text(Role::Assistant, analysis_context)
     }
 
     fn empty_or_join(&self, title: &str, contents: &Option<Vec<String>>) -> String {
@@ -224,15 +224,9 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
 
         Ok(ListResourceTemplatesResult {
             resource_templates: vec![
-                RawResourceTemplate {
-                    uri_template: "oeis://sequence/{id}".to_string(),
-                    name: "OEIS Sequence".to_string(),
-                    title: None,
-                    description: Some("OEIS sequence data by ID (e.g., A000045)".to_string()),
-                    mime_type: Some("application/json".to_string()),
-                    icons: None,
-                }
-                .no_annotation(),
+                ResourceTemplate::new("oeis://sequence/{id}", "OEIS Sequence")
+                    .with_description("OEIS sequence data by ID (e.g., A000045)")
+                    .with_mime_type("application/json"),
             ],
             next_cursor: None,
             meta: None,
@@ -490,7 +484,10 @@ mod tests {
 
         let content = result.unwrap().content;
         assert_eq!(content.len(), 1);
-        assert_eq!(content.first().unwrap(), &Content::text("https://oeis.org"));
+        assert_eq!(
+            content.first().unwrap(),
+            &ContentBlock::text("https://oeis.org")
+        );
     }
 
     #[tokio::test]
@@ -509,7 +506,7 @@ mod tests {
 
         assert_eq!(
             content.first().unwrap(),
-            &Content::json(json!(FindResponse { result: fibonacci })).unwrap()
+            &ContentBlock::json(json!(FindResponse { result: fibonacci })).unwrap()
         );
     }
 
@@ -563,7 +560,7 @@ mod tests {
 
         assert_eq!(
             content.first().unwrap(),
-            &Content::json(json!(SearchResponse { results: sequences })).unwrap()
+            &ContentBlock::json(json!(SearchResponse { results: sequences })).unwrap()
         );
     }
 
@@ -582,7 +579,7 @@ mod tests {
 
         assert_eq!(
             content.first().unwrap(),
-            &Content::json(json!(SearchResponse { results: vec![] })).unwrap()
+            &ContentBlock::json(json!(SearchResponse { results: vec![] })).unwrap()
         );
     }
 
@@ -633,8 +630,8 @@ mod tests {
         assert_eq!(messages.len(), 2);
 
         // Check first message is from user
-        assert_eq!(messages[0].role, PromptMessageRole::User);
-        if let PromptMessageContent::Text { text } = &messages[0].content {
+        assert_eq!(messages[0].role, Role::User);
+        if let ContentBlock::Text(TextContent { text, .. }) = &messages[0].content {
             assert!(text.contains("comprehensive analysis"));
             assert!(text.contains("A000045"));
         } else {
@@ -642,8 +639,8 @@ mod tests {
         }
 
         // Check second message is from assistant with sequence data
-        assert_eq!(messages[1].role, PromptMessageRole::Assistant);
-        if let PromptMessageContent::Text { text } = &messages[1].content {
+        assert_eq!(messages[1].role, Role::Assistant);
+        if let ContentBlock::Text(TextContent { text, .. }) = &messages[1].content {
             assert!(text.contains("Fibonacci numbers"));
             assert!(text.contains("A000045"));
             assert!(text.contains("0, 1, 1, 2, 3, 5, 8"));
