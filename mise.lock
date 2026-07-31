@@ -47,49 +47,49 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849249
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
-version = "v1.7.0"
+version = "v1.7.2"
 backend = "aqua:betterleaks/betterleaks"
 
 [tools.betterleaks."platforms.linux-arm64"]
-checksum = "sha256:5a0eb63610f7928ce9c8dd204a66fe7cc2b3541c63b46176b2811aeff19006a2"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433607"
+checksum = "sha256:b0d89e4a21559df6341a59d3cdcef9a9a58a0b3b33fccb8e020a00f8c2080b97"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851268"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.linux-arm64-musl"]
-checksum = "sha256:5a0eb63610f7928ce9c8dd204a66fe7cc2b3541c63b46176b2811aeff19006a2"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433607"
+checksum = "sha256:b0d89e4a21559df6341a59d3cdcef9a9a58a0b3b33fccb8e020a00f8c2080b97"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851268"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.linux-x64"]
-checksum = "sha256:75f07552508d80d59537ca27c2cd6113f51a2ad55bc88a548f7c1156e4bb934e"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_linux_x64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433648"
+checksum = "sha256:ea9ed6a4aa2845ac2e00c0eafbc841057631321d53c061d5a435cf33e6e9ddaf"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851229"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.linux-x64-musl"]
-checksum = "sha256:75f07552508d80d59537ca27c2cd6113f51a2ad55bc88a548f7c1156e4bb934e"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_linux_x64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433648"
+checksum = "sha256:ea9ed6a4aa2845ac2e00c0eafbc841057631321d53c061d5a435cf33e6e9ddaf"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851229"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.macos-arm64"]
-checksum = "sha256:e1a839616d0a01afc44c7874cbacf3c6046439f5f21a504113577d88d60541a8"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433610"
+checksum = "sha256:cd68921280488e2ec40adbf217a8904573ed06117eca1cbd39a77e739f4335a9"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851231"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.macos-x64"]
-checksum = "sha256:87932769eff231034752ef84b75ee9e37d4e64dea79ec75cc494337cf7fbcc52"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_darwin_x64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433606"
+checksum = "sha256:0e5c3fc12ef50a3e54db75b570deac8c245e6a306398f5397606fd2d45d0d7af"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_darwin_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851256"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.windows-x64"]
-checksum = "sha256:e8cdd774fc3bdf221dc5abd07dc7fe317fc4847f9d8f2cfca47e93d99d410b4e"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_windows_x64.zip"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433608"
+checksum = "sha256:bf2df96337ae4670d075ef1e3b18eb4fcc5e7691aeb0b2bb6755b3dce1a1d9ed"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.2/betterleaks_1.7.2_windows_x64.zip"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/492851234"
 provenance = "cosign"
 
 [[tools.cspell]]
