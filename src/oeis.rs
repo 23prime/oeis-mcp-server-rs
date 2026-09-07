@@ -222,22 +222,18 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
     ) -> Result<ListResourceTemplatesResult, McpError> {
         info!("Listing resource templates");
 
-        Ok(ListResourceTemplatesResult {
-            resource_templates: vec![
-                ResourceTemplate::new("oeis://sequence/{id}", "OEIS Sequence")
-                    .with_description("OEIS sequence data by ID (e.g., A000045)")
-                    .with_mime_type("application/json"),
-            ],
-            next_cursor: None,
-            meta: None,
-        })
+        Ok(ListResourceTemplatesResult::with_all_items(vec![
+            ResourceTemplate::new("oeis://sequence/{id}", "OEIS Sequence")
+                .with_description("OEIS sequence data by ID (e.g., A000045)")
+                .with_mime_type("application/json"),
+        ]))
     }
 
     async fn read_resource(
         &self,
         ReadResourceRequestParams { uri, .. }: ReadResourceRequestParams,
         _: RequestContext<RoleServer>,
-    ) -> Result<ReadResourceResult, McpError> {
+    ) -> Result<ReadResourceResponse, McpError> {
         info!("Reading resource: {:?}", uri);
 
         // Parse URI pattern: oeis://sequence/{id}
@@ -248,10 +244,7 @@ impl<C: OEISClient + Clone + 'static> ServerHandler for OEIS<C> {
             let json_content = serde_json::to_string_pretty(&sequence)
                 .map_err(|e| McpError::new(ErrorCode::INTERNAL_ERROR, e.to_string(), None))?;
 
-            Ok(ReadResourceResult::new(vec![ResourceContents::text(
-                &json_content,
-                uri,
-            )]))
+            Ok(ReadResourceResult::new(vec![ResourceContents::text(&json_content, uri)]).into())
         } else {
             Err(McpError::new(
                 ErrorCode::INVALID_PARAMS,
