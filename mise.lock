@@ -179,13 +179,13 @@ checksum = "sha256:c8af870b5b3e9789a6cbdb30270e7c212e12d76a7afa7fc7f21b6b21cc22a
 url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-win-x64.zip"
 
 [[tools.pnpm]]
-version = "11.28.1"
+version = "11.28.3"
 backend = "aqua:pnpm/pnpm"
 
 [tools.pnpm."platforms.linux-arm64"]
-checksum = "sha256:6132260275fc4c21de97a737caa02b8907d4f8ff639f111b27f129a50af83707"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.28.1/pnpm-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/594793279"
+checksum = "sha256:f41d5272bdc1d07139daa31412d24bd5394476a4b8b6eb72c269d3bd52e95d4a"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.3/pnpm-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/601208890"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-arm64-musl"]
@@ -195,27 +195,27 @@ url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/439033056"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64"]
-checksum = "sha256:786ad4802b199a255e21c135538c39745ee9d0e4e77da641c7726c60b03f5bc1"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.28.1/pnpm-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/594793285"
+checksum = "sha256:b0c9673be13d4b914b8045a56986418c55c446bb8d113b65ec65bf7cb7bec35f"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.3/pnpm-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/601208877"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl"]
-checksum = "sha256:2630ed236902245f0b44c993548215ee979d0f0a5d4e15d17c51be0d574b0f29"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.28.1/pnpm-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/594793284"
+checksum = "sha256:8f48439edcc0f6a0c11af238a1a7d5fbfce6ed11a309277f5a1b63a1dda3d1bb"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.3/pnpm-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/601208871"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.macos-arm64"]
-checksum = "sha256:8c6a6bcb26a22bce41b865c69f17eb3a762f7d356422df811c10d68905ca22a0"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.28.1/pnpm-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/594793283"
+checksum = "sha256:694046ba22f01cfe3cac02930d38a426acc91bb779c70d59cc0f675b36a6bf06"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.3/pnpm-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/601208870"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.windows-x64"]
-checksum = "sha256:e25d245d21e4301d66aeeaf20306023871291d2703cf1b47a05f6f5cd535dad3"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.28.1/pnpm-win32-x64.zip"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/594793280"
+checksum = "sha256:adc2abf308ce6ad6301ff573f6dc3c10ab027d47a6004699b36bc2a63314b3be"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.3/pnpm-win32-x64.zip"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/601208873"
 provenance = "github-attestations"
 
 [[tools.shellcheck]]
@@ -307,6 +307,9 @@ url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-arm64-musl"]
+checksum = "sha256:7ff1dce33bdd18fd2a4affe63bdd47efcccca97b2cec1c1863ec26e9e2647540"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067643"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64"]
@@ -316,6 +319,9 @@ url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl"]
+checksum = "sha256:e65324f4430c2717591937edcec90ccbefaf14c174f8ec9415e03ca875b46e1a"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067642"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.macos-arm64"]
