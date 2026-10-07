@@ -8,3 +8,6 @@ minimumReleaseAge: 4320
 strictDepBuilds: true
 
 trustPolicy: no-downgrade
+minimumReleaseAgeExclude:
+  # Renovate security update: @modelcontextprotocol/sdk@1.31.0
+  - "@modelcontextprotocol/sdk@1.31.0"
