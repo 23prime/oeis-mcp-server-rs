@@ -147,7 +147,7 @@ version = "0.24.0"
 backend = "npm:markdownlint-cli2"
 
 [[tools.node]]
-version = "26.10.0"
+version = "26.12.1"
 backend = "core:node"
 
 [tools.node."platforms.linux-arm64"]
