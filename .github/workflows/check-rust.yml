@@ -2,6 +2,8 @@ name: Check
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "src/**"
       - "Cargo.toml"
@@ -26,6 +28,7 @@ env:
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write # push auto-fix commits
       pull-requests: write # update the PR with auto-fix commits
